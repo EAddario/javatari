@@ -6,13 +6,12 @@ import org.javatari.atari.controls.ConsoleControls.Control;
 
 public final class ControlChangeForPaddle extends ControlChange {
 
-	public ControlChangeForPaddle(Control control, int position) {
-		this.control = control;
-		this.position = position;
-	}
+    public static final long serialVersionUID = 1L;
+    public int position;
 
-	public int position;
-
-	public static final long serialVersionUID = 1L;
+    ControlChangeForPaddle(Control control, int position) {
+        this.control = control;
+        this.position = position;
+    }
 
 }

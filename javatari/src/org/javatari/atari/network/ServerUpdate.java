@@ -2,18 +2,17 @@
 
 package org.javatari.atari.network;
 
+import org.javatari.atari.console.savestate.ConsoleState;
+
 import java.io.Serializable;
 import java.util.List;
-
-import org.javatari.atari.console.savestate.ConsoleState;
 
 
 public final class ServerUpdate implements Serializable {
 
-	public Boolean powerChange = null;
-	public List<ControlChange> controlChanges = null;
-	public ConsoleState consoleState = null;
-	
-	public static final long serialVersionUID = 2L;
+    public static final long serialVersionUID = 2L;
+    Boolean powerChange = null;
+    List<ControlChange> controlChanges = null;
+    ConsoleState consoleState = null;
 
 }

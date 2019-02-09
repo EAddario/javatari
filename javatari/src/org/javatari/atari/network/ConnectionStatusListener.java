@@ -4,6 +4,6 @@ package org.javatari.atari.network;
 
 public interface ConnectionStatusListener {
 
-	public void connectionStatusChanged();
-	
+    void connectionStatusChanged();
+
 }

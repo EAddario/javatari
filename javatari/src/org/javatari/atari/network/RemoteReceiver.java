@@ -2,215 +2,218 @@
 
 package org.javatari.atari.network;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import org.javatari.parameters.Parameters;
+
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.javatari.parameters.Parameters;
-
 
 public final class RemoteReceiver {
 
-	public RemoteReceiver() {
-		updates = new ConcurrentLinkedQueue<ServerUpdate>();
-	}
+    private static final int MAX_UPDATES_PENDING = Parameters.CLIENT_MAX_UPDATES_PENDING;
+    private ClientConsole console;
+    private Socket socket;
+    private String serverAddress;
+    private final ConcurrentLinkedQueue<ServerUpdate> updates;
+    private UpdatesConsumer updatesConsumer;
+    private UpdatesReceiver updatesReceiver;
+    private OutputStream socketOutputStream;
+    private InputStream socketInputStream;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
+    private List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
 
-	public void connect(String server) throws IOException {
-		tryConnection(server);
-	}
-	
-	public void disconnect() throws IOException {
-		if (socket == null || socket.isClosed()) return; 
-		UpdatesReceiver rec = updatesReceiver;
-		UpdatesConsumer cons = updatesConsumer;
-		socket.close();	// Will stop the receiver loop and disconnect
-		try {
-			if (rec != null) rec.join();	// Wait for disconnection to complete
-			if (cons != null) cons.join();
-		} catch (InterruptedException e) {
-			// No problem
-		}
-	}
+    public RemoteReceiver() {
+        updates = new ConcurrentLinkedQueue<>();
+    }
 
-	public boolean isConnected() {
-		return inputStream != null;
-	}
-	
-	public String serverAddress() {
-		return serverAddress;
-	}
-	
-	public void clientConsole(ClientConsole console) {
-		this.console = console;
-	}
-	
-	public void addConnectionStatusListener(ConnectionStatusListener lis) {
-		if (!connectionListeners.contains(lis)) connectionListeners.add(lis);
-	}
+    public void connect(String server) throws IOException {
+        tryConnection(server);
+    }
 
-	private void tryConnection(String serverAddress) throws IOException, IllegalArgumentException {
-		this.serverAddress = serverAddress;
-		try {
-			String addr = getHost(serverAddress);
-			int port = getPort(serverAddress);
-			socket = new Socket(addr, port);
-			socket.setTcpNoDelay(true);
-			socketOutputStream = socket.getOutputStream();
-			outputStream = new ObjectOutputStream(socketOutputStream);
-			socketInputStream = socket.getInputStream();
-			inputStream = new ObjectInputStream(socketInputStream);
-		} catch (IOException ex) {
-			disconnection();
-			throw ex;
-		}
-		resetUpdatesPending();
-		updatesReceiver = new UpdatesReceiver();
-		updatesReceiver.start();
-		updatesConsumer = new UpdatesConsumer();
-		updatesConsumer.start();
-		console.connected();
-		notifyConnectionStatusListeners();	
-	}
-	
-	private String getHost(String serverAddress) {
-		int divider = serverAddress.indexOf(":");
-		if (divider < 0) return serverAddress;
-		else return serverAddress.substring(0, divider).trim();
-	}
+    public void disconnect() throws IOException {
+        if (socket == null || socket.isClosed()) return;
+        UpdatesReceiver rec = updatesReceiver;
+        UpdatesConsumer cons = updatesConsumer;
+        socket.close();    // Will stop the receiver loop and disconnect
+        try {
+            if (rec != null) rec.join();    // Wait for disconnection to complete
+            if (cons != null) cons.join();
+        } catch (InterruptedException e) {
+            // No problem
+        }
+    }
 
-	private int getPort(String serverAddress) throws IllegalArgumentException {
-		int divider = serverAddress.indexOf(":");
-		String p = "";
-		try {
-			if (divider < 0) return Parameters.SERVER_SERVICE_PORT;
-			else {
-				p = serverAddress.substring(divider + 1).trim();
-				return Integer.valueOf(p);
-			}
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Invalid port number: " + p);
-		}
-	}
+    public boolean isConnected() {
+        return inputStream != null;
+    }
 
-	private void disconnection() {
-		boolean wasConnected = inputStream != null;
-		cleanStreamsSilently();
-		if (updatesConsumer != null) updatesConsumer.interrupt();	// Will stop the consumer loop
-		if (wasConnected) {
-			console.disconnected();
-			notifyConnectionStatusListeners();
-		}
-	}
+    public String serverAddress() {
+        return serverAddress;
+    }
 
-	private void cleanStreamsSilently() {
-		try { socket.close(); } catch (Exception e) {}
-		try { socketOutputStream.close(); } catch (Exception e) {}
-		try { socketInputStream.close(); } catch (Exception e) {}
-		socket = null;
-		socketOutputStream = null; outputStream = null;
-		socketInputStream = null; inputStream = null;
-	}
+    void clientConsole(ClientConsole console) {
+        this.console = console;
+    }
 
-	private void receiveServerUpdate(ServerUpdate update) {
-		synchronized (updates) {
-			while(updates.size() > MAX_UPDATES_PENDING) {
-				try {
-					updates.wait();
-				} catch (InterruptedException e) {}
-			}
-			updates.add(update);
-			updates.notifyAll();
-		}
-	}
-	
-	private void resetUpdatesPending() {
-		console.controlChangesToSend();		// Will clear any remaining entries
-		synchronized (updates) {
-			updates.clear();
-			updates.notifyAll();
-		}
-	}
+    public void addConnectionStatusListener(ConnectionStatusListener lis) {
+        if (!connectionListeners.contains(lis)) connectionListeners.add(lis);
+    }
 
-	private void notifyConnectionStatusListeners() {
-		for (ConnectionStatusListener lis : connectionListeners)
-			lis.connectionStatusChanged();
-	}
+    private void tryConnection(String serverAddress) throws IOException, IllegalArgumentException {
+        this.serverAddress = serverAddress;
+        try {
+            String addr = getHost(serverAddress);
+            int port = getPort(serverAddress);
+            socket = new Socket(addr, port);
+            socket.setTcpNoDelay(true);
+            socketOutputStream = socket.getOutputStream();
+            outputStream = new ObjectOutputStream(socketOutputStream);
+            socketInputStream = socket.getInputStream();
+            inputStream = new ObjectInputStream(socketInputStream);
+        } catch (IOException ex) {
+            disconnection();
+            throw ex;
+        }
+        resetUpdatesPending();
+        updatesReceiver = new UpdatesReceiver();
+        updatesReceiver.start();
+        updatesConsumer = new UpdatesConsumer();
+        updatesConsumer.start();
+        console.connected();
+        notifyConnectionStatusListeners();
+    }
 
+    private String getHost(String serverAddress) {
+        int divider = serverAddress.indexOf(":");
+        if (divider < 0) return serverAddress;
+        else return serverAddress.substring(0, divider).trim();
+    }
 
-	
-	private ClientConsole console;
-	
-	private Socket socket;
-	private String serverAddress;
+    private int getPort(String serverAddress) throws IllegalArgumentException {
+        int divider = serverAddress.indexOf(":");
+        String p = "";
+        try {
+            if (divider < 0) return Parameters.SERVER_SERVICE_PORT;
+            else {
+                p = serverAddress.substring(divider + 1).trim();
+                return Integer.valueOf(p);
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid port number: " + p);
+        }
+    }
 
-	private ConcurrentLinkedQueue<ServerUpdate> updates;
-	private UpdatesConsumer updatesConsumer;
-	private UpdatesReceiver updatesReceiver;
-	private OutputStream socketOutputStream;
-	private InputStream socketInputStream;
-	private ObjectOutputStream outputStream;
-	private ObjectInputStream inputStream;
-	
-	private List<ConnectionStatusListener> connectionListeners = new ArrayList<ConnectionStatusListener>();
+    private void disconnection() {
+        boolean wasConnected = inputStream != null;
+        cleanStreamsSilently();
+        if (updatesConsumer != null) updatesConsumer.interrupt();    // Will stop the consumer loop
+        if (wasConnected) {
+            console.disconnected();
+            notifyConnectionStatusListeners();
+        }
+    }
 
-	private static final int MAX_UPDATES_PENDING = Parameters.CLIENT_MAX_UPDATES_PENDING;
+    private void cleanStreamsSilently() {
+        try {
+            socket.close();
+        } catch (Exception ignored) {
+        }
+        try {
+            socketOutputStream.close();
+        } catch (Exception ignored) {
+        }
+        try {
+            socketInputStream.close();
+        } catch (Exception ignored) {
+        }
+        socket = null;
+        socketOutputStream = null;
+        outputStream = null;
+        socketInputStream = null;
+        inputStream = null;
+    }
 
+    private void receiveServerUpdate(ServerUpdate update) {
+        synchronized (updates) {
+            while (updates.size() > MAX_UPDATES_PENDING) {
+                try {
+                    updates.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+            updates.add(update);
+            updates.notifyAll();
+        }
+    }
 
-	private final class UpdatesReceiver extends Thread {
-		public UpdatesReceiver() {
-			super("RemoteReceiver Receiver");
-		}
-		@Override
-		public void run() {
-			ServerUpdate update;
-			try {
-				while(inputStream != null) {
-					update = (ServerUpdate) inputStream.readObject();
-					outputStream.writeObject(console.controlChangesToSend());
-					outputStream.flush();
-					socketOutputStream.flush();
-					receiveServerUpdate(update);
-				}
-			} catch (Exception ex) {
-			}
-			// Exception while receiving update, or interrupted. Try to disconnect
-			disconnection();
-			updatesReceiver = null;
-		}
-	}
+    private void resetUpdatesPending() {
+        console.controlChangesToSend();        // Will clear any remaining entries
+        synchronized (updates) {
+            updates.clear();
+            updates.notifyAll();
+        }
+    }
 
-	private final class UpdatesConsumer extends Thread {
-		public UpdatesConsumer() {
-			super("RemoteReceiver Consumer");
-		}
-		@Override
-		public void run() {
-			ServerUpdate update;
-			try {
-				while (inputStream != null) {
-					synchronized(updates) {
-						while((update = updates.poll()) == null) {
-							updates.wait();
-						}
-						updates.notifyAll();
-					}
-					if (inputStream != null && update != null) {
-						console.receiveServerUpdate(update);
-						yield();
-					}
-				}
-			} catch (InterruptedException ex) {
-				// Someone wants to end the consumer
-			}
-			updatesConsumer = null;
-		}
-	}
+    private void notifyConnectionStatusListeners() {
+        for (ConnectionStatusListener lis : connectionListeners)
+            lis.connectionStatusChanged();
+    }
+
+    private final class UpdatesReceiver extends Thread {
+        UpdatesReceiver() {
+            super("RemoteReceiver Receiver");
+        }
+
+        @Override
+        public void run() {
+            ServerUpdate update;
+            try {
+                while (inputStream != null) {
+                    update = (ServerUpdate) inputStream.readObject();
+                    outputStream.writeObject(console.controlChangesToSend());
+                    outputStream.flush();
+                    socketOutputStream.flush();
+                    receiveServerUpdate(update);
+                }
+            } catch (Exception ignored) {
+            }
+            // Exception while receiving update, or interrupted. Try to disconnect
+            disconnection();
+            updatesReceiver = null;
+        }
+    }
+
+    private final class UpdatesConsumer extends Thread {
+        UpdatesConsumer() {
+            super("RemoteReceiver Consumer");
+        }
+
+        @Override
+        public void run() {
+            ServerUpdate update;
+            try {
+                while (inputStream != null) {
+                    synchronized (updates) {
+                        while ((update = updates.poll()) == null) {
+                            updates.wait();
+                        }
+                        updates.notifyAll();
+                    }
+                    if (inputStream != null) {
+                        console.receiveServerUpdate(update);
+                        yield();
+                    }
+                }
+            } catch (InterruptedException ex) {
+                // Someone wants to end the consumer
+            }
+            updatesConsumer = null;
+        }
+    }
 
 }
 
