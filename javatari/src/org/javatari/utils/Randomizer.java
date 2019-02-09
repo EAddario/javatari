@@ -6,6 +6,6 @@ import java.util.Random;
 
 public final class Randomizer {
 
-	public static final Random instance = new Random(System.currentTimeMillis());
+    public static final Random instance = new Random(System.currentTimeMillis());
 
 }

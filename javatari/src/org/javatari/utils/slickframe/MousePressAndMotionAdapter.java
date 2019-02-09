@@ -4,6 +4,6 @@ package org.javatari.utils.slickframe;
 
 import java.awt.event.MouseAdapter;
 
-public class MousePressAndMotionAdapter extends MouseAdapter implements MousePressAndMotionListener {
-	
+class MousePressAndMotionAdapter extends MouseAdapter implements MousePressAndMotionListener {
+
 }
