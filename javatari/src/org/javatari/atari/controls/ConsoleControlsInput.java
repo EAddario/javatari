@@ -6,9 +6,10 @@ import java.util.Map;
 
 public interface ConsoleControlsInput {
 
-	public void controlStateChanged(ConsoleControls.Control control, boolean state);
-	public void controlStateChanged(ConsoleControls.Control control, int position);
+    void controlStateChanged(ConsoleControls.Control control, boolean state);
 
-	public void controlsStateReport(Map<ConsoleControls.Control, Boolean> report);
-	
+    void controlStateChanged(ConsoleControls.Control control, int position);
+
+    void controlsStateReport(Map<ConsoleControls.Control, Boolean> report);
+
 }

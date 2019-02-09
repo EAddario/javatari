@@ -4,6 +4,6 @@ package org.javatari.atari.controls;
 
 public interface ConsoleControlsRedefinitionListener {
 
-	public void controlsStatesRedefined();
-	
+    void controlsStatesRedefined();
+
 }

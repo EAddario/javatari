@@ -2,56 +2,56 @@
 
 package org.javatari.atari.controls;
 
+import org.javatari.atari.controls.ConsoleControls.Control;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.javatari.atari.controls.ConsoleControls.Control;
-
 
 public class ConsoleControlsSocket implements ConsoleControlsInput {
 
-	@Override
-	public void controlStateChanged(Control control, boolean state) {
-		for (ConsoleControlsInput input : forwardedInputs)
-			input.controlStateChanged(control, state);
-	}
+    private List<ConsoleControlsInput> forwardedInputs = new ArrayList<>();
+    private List<ConsoleControlsRedefinitionListener> redefinitonListeners = new ArrayList<>();
 
-	@Override
-	public void controlStateChanged(ConsoleControls.Control control, int position) {
-		for (ConsoleControlsInput input : forwardedInputs)
-			input.controlStateChanged(control, position);
-	}
+    @Override
+    public void controlStateChanged(Control control, boolean state) {
+        for (ConsoleControlsInput input : forwardedInputs)
+            input.controlStateChanged(control, state);
+    }
 
-	@Override
-	public void controlsStateReport(Map<Control, Boolean> report) {
-		for (ConsoleControlsInput input : forwardedInputs)
-			input.controlsStateReport(report);
-	}
+    @Override
+    public void controlStateChanged(ConsoleControls.Control control, int position) {
+        for (ConsoleControlsInput input : forwardedInputs)
+            input.controlStateChanged(control, position);
+    }
 
-	public void addForwardedInput(ConsoleControlsInput input) {
-		forwardedInputs = new ArrayList<ConsoleControlsInput>(forwardedInputs);	// To prevent comodification
-		forwardedInputs.add(input);
-	}
-	
-	public void removeForwardedInput(ConsoleControlsInput input) {
-		forwardedInputs = new ArrayList<ConsoleControlsInput>(forwardedInputs);	// To prevent comodification
-		forwardedInputs.remove(input);
-	}
-	public void addRedefinitionListener(ConsoleControlsRedefinitionListener listener) {
-		if (!redefinitonListeners.contains(listener)) {
-			redefinitonListeners.add(listener);
-			listener.controlsStatesRedefined();		// Fire a redefinition event
-		}
-	}
-	
-	public void controlsStatesRedefined() {
-		for (ConsoleControlsRedefinitionListener listener : redefinitonListeners)
-			listener.controlsStatesRedefined();
-	}
-	
+    @Override
+    public void controlsStateReport(Map<Control, Boolean> report) {
+        for (ConsoleControlsInput input : forwardedInputs)
+            input.controlsStateReport(report);
+    }
 
-	private List<ConsoleControlsInput> forwardedInputs = new ArrayList<ConsoleControlsInput>();
-	private List<ConsoleControlsRedefinitionListener> redefinitonListeners = new ArrayList<ConsoleControlsRedefinitionListener>();
+    public void addForwardedInput(ConsoleControlsInput input) {
+        forwardedInputs = new ArrayList<>(forwardedInputs);    // To prevent comodification
+        forwardedInputs.add(input);
+    }
+
+    public void removeForwardedInput(ConsoleControlsInput input) {
+        forwardedInputs = new ArrayList<>(forwardedInputs);    // To prevent comodification
+        forwardedInputs.remove(input);
+    }
+
+    public void addRedefinitionListener(ConsoleControlsRedefinitionListener listener) {
+        if (!redefinitonListeners.contains(listener)) {
+            redefinitonListeners.add(listener);
+            listener.controlsStatesRedefined();        // Fire a redefinition event
+        }
+    }
+
+    public void controlsStatesRedefined() {
+        for (ConsoleControlsRedefinitionListener listener : redefinitonListeners)
+            listener.controlsStatesRedefined();
+    }
 
 }

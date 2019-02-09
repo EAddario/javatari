@@ -4,12 +4,12 @@ package org.javatari.atari.console.savestate;
 
 public interface SaveStateSocket {
 
-	public void connectMedia(SaveStateMedia media);
+    void connectMedia(SaveStateMedia media);
 
-	public SaveStateMedia media();
-	
-	public void externalStateChange();
+    SaveStateMedia media();
 
-	public void saveStateFile();
-	
+    void externalStateChange();
+
+    void saveStateFile();
+
 }

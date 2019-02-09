@@ -4,7 +4,7 @@ package org.javatari.general.board;
 
 public interface ClockDriven {
 
-	public void clockPulse();
-	
+    void clockPulse();
+
 }
-	
+
