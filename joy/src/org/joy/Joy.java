@@ -90,7 +90,8 @@ public class Joy {
         public int id;
         public String name = "Undefined";
         public boolean pov;
-        int buttons, axes;
+        public int buttons;
+        int axes;
         int[] axesMinValues = new int[6];
         int[] axesMaxValues = new int[6];
         private State state;

@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Application-Name: Javatari
+Main-Class: org.javatari.main.Standalone
+Class-Path: .
+Codebase: *
+Sealed: true
+Permissions: all-permissions
