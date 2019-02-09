@@ -6,30 +6,29 @@ import org.javatari.parameters.Parameters;
 
 public final class AudioMonoGenerator extends AudioGenerator {
 
-	@Override
-	protected void generateNextSamples(int quant) {
-		for (int i = quant; i > 0; i--) {
-			float mixedSample = channel0.nextSample() - channel1.nextSample();
+    private static final float MAX_AMPLITUDE = Parameters.TIA_AUDIO_MAX_AMPLITUDE;
+    private float lastSample = 0;
 
-			// Add a little damper effect to round the edges of the square wave
-			if (mixedSample != lastSample) {
-				mixedSample = (mixedSample * 9 + lastSample) / 10;
-				lastSample = mixedSample;
-			}
-			
-			samples[generatedSamples++] = (byte) (mixedSample * MAX_AMPLITUDE * 127);
-			frameSamples++;
-		}
-	}
+    @Override
+    protected void generateNextSamples(int quant) {
+        for (int i = quant; i > 0; i--) {
+            float mixedSample = channel0.nextSample() - channel1.nextSample();
 
-	@Override
-	public void signalOff() {
-		lastSample = 0;
-		super.signalOff();
-	}
-	
-	private float lastSample = 0;
-	
-	private static final float MAX_AMPLITUDE = Parameters.TIA_AUDIO_MAX_AMPLITUDE;
-	
+            // Add a little damper effect to round the edges of the square wave
+            if (mixedSample != lastSample) {
+                mixedSample = (mixedSample * 9 + lastSample) / 10;
+                lastSample = mixedSample;
+            }
+
+            samples[generatedSamples++] = (byte) (mixedSample * MAX_AMPLITUDE * 127);
+            frameSamples++;
+        }
+    }
+
+    @Override
+    public void signalOff() {
+        lastSample = 0;
+        super.signalOff();
+    }
+
 }

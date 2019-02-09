@@ -2,10 +2,10 @@
 
 package org.javatari.general.av.audio;
 
-public interface AudioMonitor  {
+public interface AudioMonitor {
 
-	public int nextSamples(byte[] samples, int quant);
+    int nextSamples(byte[] samples, int quant);
 
-	public void synchOutput();
-	
+    void synchOutput();
+
 }

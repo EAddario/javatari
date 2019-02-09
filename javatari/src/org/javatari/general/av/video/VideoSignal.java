@@ -4,9 +4,9 @@ package org.javatari.general.av.video;
 
 public interface VideoSignal {
 
-	public VideoStandard standard();
+    VideoStandard standard();
 
-	public void connectMonitor(VideoMonitor monitor);
-	
+    void connectMonitor(VideoMonitor monitor);
+
 }
-	
+

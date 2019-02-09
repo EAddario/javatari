@@ -4,6 +4,6 @@ package org.javatari.general.av.audio;
 
 public interface AudioSignal {
 
-	public void connectMonitor(AudioMonitor monitor);
+    void connectMonitor(AudioMonitor monitor);
 
 }

@@ -3,13 +3,17 @@
 package org.javatari.general.av.video;
 
 public interface VideoMonitor {
-	
-	public boolean nextLine(int[] pixels, boolean vSynch);
-	public void showOSD(String message, boolean overlap);
-	public void synchOutput();
 
-	public int currentLine();
-	public void videoStandardDetectionStart();
-	public VideoStandard videoStandardDetected();
-	
+    boolean nextLine(int[] pixels, boolean vSynch);
+
+    void showOSD(String message, boolean overlap);
+
+    void synchOutput();
+
+    int currentLine();
+
+    void videoStandardDetectionStart();
+
+    VideoStandard videoStandardDetected();
+
 }
