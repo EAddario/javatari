@@ -1698,28 +1698,41 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
                     lblNewButton.setBorder(new DeepBorder(6, new Insets(3, 3, 3, 3)));
                 }
 
-                JLabel lblVerion = new JLabel("version " + Parameters.VERSION);
-                lblVerion.setHorizontalAlignment(SwingConstants.CENTER);
-                lblVerion.setFont(fontLabelMedium);
-                lblVerion.setBounds(67, 202, 95, 14);
-                aboutPanel.add(lblVerion);
-
-                JLabel lblCreate = new JLabel("Paulo Augusto Peccin");
-                lblCreate.setHorizontalAlignment(SwingConstants.CENTER);
-                lblCreate.setFont(fontLabelLarge);
-                lblCreate.setBounds(241, 67, 173, 19);
-                aboutPanel.add(lblCreate);
+                JLabel lblVersion = new JLabel("version " + Parameters.VERSION);
+                lblVersion.setHorizontalAlignment(SwingConstants.CENTER);
+                lblVersion.setFont(fontLabelMedium);
+                lblVersion.setBounds(67, 202, 95, 14);
+                aboutPanel.add(lblVersion);
 
                 JLabel lblCreated = new JLabel("created by");
                 lblCreated.setHorizontalAlignment(SwingConstants.CENTER);
                 lblCreated.setFont(fontLabelMedium);
-                lblCreated.setBounds(259, 44, 137, 21);
+                lblCreated.setBounds(259, 24, 137, 21);
                 aboutPanel.add(lblCreated);
+
+                JLabel lblCreate = new JLabel("Paulo Augusto Peccin");
+                lblCreate.setHorizontalAlignment(SwingConstants.CENTER);
+                lblCreate.setFont(fontLabelLarge);
+                lblCreate.setBounds(241, 47, 173, 19);
+                aboutPanel.add(lblCreate);
+
+                JLabel lblModified = new JLabel("modified by");
+                lblModified.setHorizontalAlignment(SwingConstants.CENTER);
+                lblModified.setFont(fontLabelMedium);
+                lblModified.setBounds(259, 104, 137, 21);
+                aboutPanel.add(lblModified);
+
+                JLabel lblModify = new JLabel("Ed Addario");
+                lblModify.setHorizontalAlignment(SwingConstants.CENTER);
+                lblModify.setFont(fontLabelLarge);
+                lblModify.setBounds(241, 127, 173, 19);
+                aboutPanel.add(lblModify);
+
                 {
                     JLabel lblOfficialHomepage = new JLabel("official homepage:");
                     lblOfficialHomepage.setHorizontalAlignment(SwingConstants.CENTER);
                     lblOfficialHomepage.setFont(fontLabelMedium);
-                    lblOfficialHomepage.setBounds(259, 124, 137, 21);
+                    lblOfficialHomepage.setBounds(259, 164, 137, 21);
                     aboutPanel.add(lblOfficialHomepage);
                 }
                 {
@@ -1733,7 +1746,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
                     lblHttpjavatariorg.setHorizontalAlignment(SwingConstants.CENTER);
                     lblHttpjavatariorg.setForeground(new Color(40, 100, 230));
                     lblHttpjavatariorg.setFont(fontLabelLarge);
-                    lblHttpjavatariorg.setBounds(250, 146, 154, 19);
+                    lblHttpjavatariorg.setBounds(250, 186, 154, 19);
                     aboutPanel.add(lblHttpjavatariorg);
                 }
                 {
@@ -1746,7 +1759,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
                     lblppeccin.setBorder(null);
                     lblppeccin.setHorizontalAlignment(SwingConstants.CENTER);
                     lblppeccin.setFont(fontLabelMedium);
-                    lblppeccin.setBounds(259, 87, 137, 19);
+                    lblppeccin.setBounds(259, 67, 137, 19);
                     aboutPanel.add(lblppeccin);
                 }
 
