@@ -9,17 +9,17 @@ import org.javatari.utils.Environment;
 
 public final class Standalone {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		// Initialize application environment
-		Environment.init();
+        // Initialize application environment
+        Environment.init();
 
-		// Load Parameters from properties file and process arguments
-		Parameters.init(args);
+        // Load Parameters from properties file and process arguments
+        Parameters.init(args);
 
-		// Build a Room for Standalone play and turn everything on
-		Room.buildStandaloneRoom().powerOn();
+        // Build a Room for Standalone play and turn everything on
+        Room.buildStandaloneRoom().powerOn();
 
-	}
-				
+    }
+
 }
