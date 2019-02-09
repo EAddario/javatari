@@ -12,30 +12,27 @@ import org.javatari.atari.cartridge.ROM;
  */
 public abstract class CartridgeBanked extends Cartridge {
 
-	protected CartridgeBanked(ROM rom, CartridgeFormat format) {
-		super(rom, format);
-	}
+    public static final long serialVersionUID = 1L;
+    protected int bankAddressOffset = 0;
 
-	@Override
-	public byte readByte(int address) {		
-		maskAddress(address);
-		// Always add the correct offset to access bank selected
-		return bytes[bankAddressOffset + maskedAddress];	
-	}
+    CartridgeBanked(ROM rom, CartridgeFormat format) {
+        super(rom, format);
+    }
 
-	@Override
-	public void maskAddress(int address) {
-		super.maskAddress(address);
-		// Perform bank switching as needed 
-		performBankSwitchOnMaskedAddress();
-	}
-		
-	protected abstract void performBankSwitchOnMaskedAddress();
+    @Override
+    public byte readByte(int address) {
+        maskAddress(address);
+        // Always add the correct offset to access bank selected
+        return bytes[bankAddressOffset + maskedAddress];
+    }
 
+    @Override
+    public void maskAddress(int address) {
+        super.maskAddress(address);
+        // Perform bank switching as needed
+        performBankSwitchOnMaskedAddress();
+    }
 
-	protected int bankAddressOffset = 0;
-
-	
-	public static final long serialVersionUID = 1L;
+    protected abstract void performBankSwitchOnMaskedAddress();
 
 }

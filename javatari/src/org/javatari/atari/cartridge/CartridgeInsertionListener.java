@@ -4,6 +4,6 @@ package org.javatari.atari.cartridge;
 
 public interface CartridgeInsertionListener {
 
-	public void cartridgeInserted(Cartridge cartridge);
-	
+    void cartridgeInserted(Cartridge cartridge);
+
 }

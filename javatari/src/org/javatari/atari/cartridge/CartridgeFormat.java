@@ -7,38 +7,34 @@ import java.io.Serializable;
 
 public abstract class CartridgeFormat implements Serializable {
 
-	public CartridgeFormat(String id, String name) {
-		super();
-		this.id = id;
-		this.name = name;
-	}
-	
-	public abstract Cartridge createCartridge(ROM rom);
+    private static final long serialVersionUID = 1L;
+    final String id;
+    public final String name;
 
-	public abstract CartridgeFormatOption getOption(ROM rom);
-	
-	@Override
-	public String toString() {
-		return id + ": " + name;
-	}
-	
-		
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
+    public CartridgeFormat(String id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof CartridgeFormat)) return false;
-		return id.equals(((CartridgeFormat) obj).id);
-	}
+    public abstract Cartridge createCartridge(ROM rom);
 
-	
-	public final String id;
-	public final String name;
+    public abstract CartridgeFormatOption getOption(ROM rom);
 
-	
-	private static final long serialVersionUID = 1L;
-	
+    @Override
+    public String toString() {
+        return id + ": " + name;
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CartridgeFormat)) return false;
+        return id.equals(((CartridgeFormat) obj).id);
+    }
+
 }

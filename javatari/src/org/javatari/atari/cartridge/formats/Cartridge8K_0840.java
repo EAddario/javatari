@@ -12,37 +12,36 @@ import org.javatari.atari.cartridge.ROM;
  */
 public class Cartridge8K_0840 extends CartridgeBankedByBusMonitoring {
 
-	protected Cartridge8K_0840(ROM rom) {
-		super(rom, FORMAT);
-	}
+    public static final long serialVersionUID = 1L;
+    protected static final int BANK_SIZE = 4096;
+    protected static final int SIZE = 2 * BANK_SIZE;
+    public static final CartridgeFormat FORMAT = new CartridgeFormat("0840", "8K Econobanking") {
+        private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void performBankSwitchOnMonitoredAccess(int address) {
-		int addrBank = address & 0x1840;
-		if (addrBank == 0x0800) {
-			if (bankAddressOffset != 0) bankAddressOffset = 0;
-		} else if (addrBank == 0x0840) {
-			if (bankAddressOffset != BANK_SIZE) bankAddressOffset = BANK_SIZE;
-		}
-	}
-	
+        @Override
+        public Cartridge createCartridge(ROM rom) {
+            return new Cartridge8K_0840(rom);
+        }
 
-	protected static final int BANK_SIZE = 4096;
-	protected static final int SIZE = 2 * BANK_SIZE;
+        @Override
+        public CartridgeFormatOption getOption(ROM rom) {
+            if (rom.content.length != SIZE) return null;
+            return new CartridgeFormatOption(116, this, rom);
+        }
+    };
 
-	public static final CartridgeFormat FORMAT = new CartridgeFormat("0840", "8K Econobanking") {
-		@Override
-		public Cartridge createCartridge(ROM rom) {
-			return new Cartridge8K_0840(rom);
-		}
-		@Override
-		public CartridgeFormatOption getOption(ROM rom) {
-			if (rom.content.length != SIZE) return null;
-			return new CartridgeFormatOption(116, this, rom);
-		}
-		private static final long serialVersionUID = 1L;
-	};
+    private Cartridge8K_0840(ROM rom) {
+        super(rom, FORMAT);
+    }
 
-	public static final long serialVersionUID = 1L;
+    @Override
+    protected void performBankSwitchOnMonitoredAccess(int address) {
+        int addrBank = address & 0x1840;
+        if (addrBank == 0x0800) {
+            if (bankAddressOffset != 0) bankAddressOffset = 0;
+        } else if (addrBank == 0x0840) {
+            if (bankAddressOffset != BANK_SIZE) bankAddressOffset = BANK_SIZE;
+        }
+    }
 
 }

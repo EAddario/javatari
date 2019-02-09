@@ -2,9 +2,6 @@
 
 package org.javatari.atari.cartridge;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import org.javatari.atari.board.BUS;
 import org.javatari.atari.console.savestate.SaveStateSocket;
 import org.javatari.atari.controls.ConsoleControls.Control;
@@ -12,121 +9,118 @@ import org.javatari.atari.controls.ConsoleControlsInput;
 import org.javatari.general.board.BUS16Bits;
 import org.javatari.general.board.ClockDriven;
 
+import java.io.Serializable;
+import java.util.Map;
+
 
 public abstract class Cartridge implements BUS16Bits, ClockDriven, Cloneable, Serializable, ConsoleControlsInput {
 
-	protected Cartridge(ROM rom, CartridgeFormat format) {
-		this.rom = rom;
-		this.bytes = rom.content;	// uses the content of the ROM directly
-		this.format = format;
-	}
+    public static final int CHIP_MASK = 0x1000;
+    public static final int CHIP_SELECT = 0x1000;
+    public static final long serialVersionUID = 2L;        // Embedded ROM version
+    private static final int ADDRESS_MASK = 0x0fff;
+    protected final ROM rom;
+    private final CartridgeFormat format;
+    protected byte[] bytes;        // for fast access to ROM content
+    protected int maskedAddress;
 
-	public ROM rom() {
-		return rom;
-	}
+    protected Cartridge(ROM rom, CartridgeFormat format) {
+        this.rom = rom;
+        this.bytes = rom.content;    // uses the content of the ROM directly
+        this.format = format;
+    }
 
-	public CartridgeFormat format() {
-		return format;
-	}
-	
-	public CartridgeInfo getInfo() {
-		return rom.info;
-	}
+    public ROM rom() {
+        return rom;
+    }
 
-	public void connectBus(BUS bus) {
-		// Nothing
-	}
+    public CartridgeFormat format() {
+        return format;
+    }
 
-	public void connectSaveStateSocket(SaveStateSocket socket) {
-		// Nothing
-	}
+    public CartridgeInfo getInfo() {
+        return rom.info;
+    }
 
-	public void powerOn() {
-		// Nothing
-	}
-	
-	public void powerOff() {
-		// Nothing
-	}
+    public void connectBus(BUS bus) {
+        // Nothing
+    }
 
-	public Cartridge saveState() {
-		return this.clone();
-	}
+    public void connectSaveStateSocket(SaveStateSocket socket) {
+        // Nothing
+    }
 
-	@Override
-	public void clockPulse() {
-		// Nothing
-	}
+    public void powerOn() {
+        // Nothing
+    }
 
-	@Override
-	public byte readByte(int address) {
-		maskAddress(address);
-		return bytes[maskedAddress];	
-	}
+    public void powerOff() {
+        // Nothing
+    }
 
-	@Override
-	public void writeByte(int address, byte b) {	
-		maskAddress(address);
-		// Writing to ROMs is possible, but nothing is changed
-	}
+    public Cartridge saveState() {
+        return this.clone();
+    }
 
-	public void monitorBusBeforeRead(int address, byte data) {
-		// Nothing
-	}
+    @Override
+    public void clockPulse() {
+        // Nothing
+    }
 
-	public void monitorBusBeforeWrite(int address, byte data) {
-		// Nothing
-	}
+    @Override
+    public byte readByte(int address) {
+        maskAddress(address);
+        return bytes[maskedAddress];
+    }
 
-	public boolean needsClock() {
-		return false;
-	}
+    @Override
+    public void writeByte(int address, byte b) {
+        maskAddress(address);
+        // Writing to ROMs is possible, but nothing is changed
+    }
 
-	public boolean needsBusMonitoring() {
-		return false;
-	}
+    public void monitorBusBeforeRead(int address, byte data) {
+        // Nothing
+    }
 
-	protected void maskAddress(int address) {
-		maskedAddress = address & ADDRESS_MASK;
-	}
+    public void monitorBusBeforeWrite(int address, byte data) {
+        // Nothing
+    }
 
-	@Override
-	public Cartridge clone() {
-		try { 
-			return (Cartridge)super.clone(); 
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
-	}
+    public boolean needsClock() {
+        return false;
+    }
 
-	@Override
-	public void controlStateChanged(Control control, boolean state) {
-		// Nothing
-	}
+    public boolean needsBusMonitoring() {
+        return false;
+    }
 
-	@Override
-	public void controlStateChanged(Control control, int position) {
-		// Nothing
-	}
+    protected void maskAddress(int address) {
+        maskedAddress = address & ADDRESS_MASK;
+    }
 
-	@Override
-	public void controlsStateReport(Map<Control, Boolean> report) {
-		// Nothing
-	}
-	
+    @Override
+    public Cartridge clone() {
+        try {
+            return (Cartridge) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 
-	protected final ROM rom;
-	protected byte[] bytes;		// for fast access to ROM content
-	private final CartridgeFormat format;
-	
-	protected int maskedAddress;
+    @Override
+    public void controlStateChanged(Control control, boolean state) {
+        // Nothing
+    }
 
+    @Override
+    public void controlStateChanged(Control control, int position) {
+        // Nothing
+    }
 
-	public static final int CHIP_MASK = 0x1000;
-	public static final int CHIP_SELECT = 0x1000;
-
-	private static final int ADDRESS_MASK = 0x0fff;
-
-	public static final long serialVersionUID = 2L;		// Embedded ROM version
+    @Override
+    public void controlsStateReport(Map<Control, Boolean> report) {
+        // Nothing
+    }
 
 }

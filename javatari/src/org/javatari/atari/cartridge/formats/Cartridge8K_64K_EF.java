@@ -12,30 +12,30 @@ import org.javatari.atari.cartridge.ROM;
  */
 public final class Cartridge8K_64K_EF extends CartridgeBankedByMaskedRange {
 
-	private Cartridge8K_64K_EF(ROM rom) {
-		super(rom, FORMAT, BASE_BANKSW_ADDRESS, null, 128);		// 128 RAM if SC mode ON
-	}
+    public static final long serialVersionUID = 1L;
+    private static final int MIN_SIZE = 8192;
+    private static final int MAX_SIZE = 65536;
+    private static final int BANK_SIZE = 4096;
+    public static final CartridgeFormat FORMAT = new CartridgeFormat("EF", "8K-64K H. Runner (+RAM)") {
+        private static final long serialVersionUID = 1L;
 
+        @Override
+        public Cartridge createCartridge(ROM rom) {
+            return new Cartridge8K_64K_EF(rom);
+        }
 
-	private static final int MIN_SIZE = 8192;
-	private static final int MAX_SIZE = 65536;
-	private static final int BANK_SIZE = 4096;
-	private static final int BASE_BANKSW_ADDRESS = 0x0fe0;
+        @Override
+        public CartridgeFormatOption getOption(ROM rom) {
+            if (rom.content.length % BANK_SIZE != 0 || rom.content.length < MIN_SIZE || rom.content.length > MAX_SIZE)
+                return null;
+            return new CartridgeFormatOption(114, this, rom);
+        }
+    };
+    private static final int BASE_BANKSW_ADDRESS = 0x0fe0;
 
-	public static final CartridgeFormat FORMAT = new CartridgeFormat("EF", "8K-64K H. Runner (+RAM)") {
-		@Override
-		public Cartridge createCartridge(ROM rom) {
-			return new Cartridge8K_64K_EF(rom);
-		}
-		@Override
-		public CartridgeFormatOption getOption(ROM rom) {
-			if (rom.content.length % BANK_SIZE != 0 || rom.content.length < MIN_SIZE || rom.content.length > MAX_SIZE) return null;
-			return new CartridgeFormatOption(114, this, rom);
-		}
-		private static final long serialVersionUID = 1L;
-	};
-
-	public static final long serialVersionUID = 1L;
+    private Cartridge8K_64K_EF(ROM rom) {
+        super(rom, FORMAT, BASE_BANKSW_ADDRESS, null, 128);        // 128 RAM if SC mode ON
+    }
 
 }
 

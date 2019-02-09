@@ -10,34 +10,33 @@ import org.javatari.atari.cartridge.ROM;
  */
 public abstract class CartridgeBankedByBusMonitoring extends CartridgeBanked {
 
-	protected CartridgeBankedByBusMonitoring(ROM rom, CartridgeFormat format) {
-		super(rom, format);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public boolean needsBusMonitoring() {
-		return true;
-	}
+    CartridgeBankedByBusMonitoring(ROM rom, CartridgeFormat format) {
+        super(rom, format);
+    }
 
-	@Override
-	public void monitorBusBeforeRead(int address, byte data) {
-		performBankSwitchOnMonitoredAccess(address);
-	}
+    @Override
+    public boolean needsBusMonitoring() {
+        return true;
+    }
 
-	@Override
-	public void monitorBusBeforeWrite(int address, byte data) {
-		performBankSwitchOnMonitoredAccess(address);
-	}
-	
-	@Override
-	protected void performBankSwitchOnMaskedAddress() {
-		// Bank switching is not done within masked address range
-		// Its done directly via bus monitoring
-	}
+    @Override
+    public void monitorBusBeforeRead(int address, byte data) {
+        performBankSwitchOnMonitoredAccess(address);
+    }
 
-	protected abstract void performBankSwitchOnMonitoredAccess(int address);
+    @Override
+    public void monitorBusBeforeWrite(int address, byte data) {
+        performBankSwitchOnMonitoredAccess(address);
+    }
 
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    protected void performBankSwitchOnMaskedAddress() {
+        // Bank switching is not done within masked address range
+        // Its done directly via bus monitoring
+    }
+
+    protected abstract void performBankSwitchOnMonitoredAccess(int address);
 
 }

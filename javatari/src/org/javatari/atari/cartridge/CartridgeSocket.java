@@ -4,11 +4,12 @@ package org.javatari.atari.cartridge;
 
 public interface CartridgeSocket extends CartridgeInsertionListener {
 
-	public void insert(Cartridge cartridge, boolean autoPowerControl);
+    void insert(Cartridge cartridge, boolean autoPowerControl);
 
-	public Cartridge inserted();
-	
-	public void addInsertionListener(CartridgeInsertionListener listener);
-	public void removeInsertionListener(CartridgeInsertionListener listener);
-	
+    Cartridge inserted();
+
+    void addInsertionListener(CartridgeInsertionListener listener);
+
+    void removeInsertionListener(CartridgeInsertionListener listener);
+
 }

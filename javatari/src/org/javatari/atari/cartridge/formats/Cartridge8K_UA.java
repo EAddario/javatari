@@ -12,36 +12,35 @@ import org.javatari.atari.cartridge.ROM;
  */
 public class Cartridge8K_UA extends CartridgeBankedByBusMonitoring {
 
-	protected Cartridge8K_UA(ROM rom) {
-		super(rom, FORMAT);
-	}
+    public static final long serialVersionUID = 1L;
+    protected static final int BANK_SIZE = 4096;
+    protected static final int SIZE = 2 * BANK_SIZE;
+    public static final CartridgeFormat FORMAT = new CartridgeFormat("UA", "8K UA Limited") {
+        private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void performBankSwitchOnMonitoredAccess(int address) {
-		if (address == 0x0220) {
-			if (bankAddressOffset != 0) bankAddressOffset = 0;
-		} else if (address == 0x0240) {
-			if (bankAddressOffset != BANK_SIZE) bankAddressOffset = BANK_SIZE;
-		}
-	}
-	
+        @Override
+        public Cartridge createCartridge(ROM rom) {
+            return new Cartridge8K_UA(rom);
+        }
 
-	protected static final int BANK_SIZE = 4096;
-	protected static final int SIZE = 2 * BANK_SIZE;
+        @Override
+        public CartridgeFormatOption getOption(ROM rom) {
+            if (rom.content.length != SIZE) return null;
+            return new CartridgeFormatOption(115, this, rom);
+        }
+    };
 
-	public static final CartridgeFormat FORMAT = new CartridgeFormat("UA", "8K UA Limited") {
-		@Override
-		public Cartridge createCartridge(ROM rom) {
-			return new Cartridge8K_UA(rom);
-		}
-		@Override
-		public CartridgeFormatOption getOption(ROM rom) {
-			if (rom.content.length != SIZE) return null;
-			return new CartridgeFormatOption(115, this, rom);
-		}
-		private static final long serialVersionUID = 1L;
-	};
+    private Cartridge8K_UA(ROM rom) {
+        super(rom, FORMAT);
+    }
 
-	public static final long serialVersionUID = 1L;
+    @Override
+    protected void performBankSwitchOnMonitoredAccess(int address) {
+        if (address == 0x0220) {
+            if (bankAddressOffset != 0) bankAddressOffset = 0;
+        } else if (address == 0x0240) {
+            if (bankAddressOffset != BANK_SIZE) bankAddressOffset = BANK_SIZE;
+        }
+    }
 
 }
