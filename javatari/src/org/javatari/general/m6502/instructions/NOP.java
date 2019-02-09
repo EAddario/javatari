@@ -7,21 +7,20 @@ import org.javatari.general.m6502.M6502;
 
 public final class NOP extends Instruction {
 
-	public NOP(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public int fetch() {
-		return 2;
-	}
+    public NOP(M6502 cpu) {
+        super(cpu);
+    }
 
-	@Override
-	public void execute() {
-		// No effects
-	}
-	
+    @Override
+    public int fetch() {
+        return 2;
+    }
 
-	public static final long serialVersionUID = 1L;
-	
+    @Override
+    public void execute() {
+        // No effects
+    }
+
 }

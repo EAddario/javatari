@@ -7,28 +7,27 @@ import org.javatari.general.m6502.M6502;
 
 public final class uSHS extends Instruction {
 
-	public uSHS(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uSHS(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode SHS");
+    @Override
+    public int fetch() {
 
-		ea = cpu.fetchAbsoluteYAddress(); return 5;		
-	}
-	
-	@Override
-	public void execute() {
-		cpu.SP = (byte) (cpu.A & cpu.X);
-		final byte val = (byte) (cpu.SP & (byte)(((ea >>> 8) & 0xff) + 1));  // SP & (High byte of address + 1) !!! 
-		cpu.bus.writeByte(ea, val);
-	}
+        cpu.debug(">>> Undocumented opcode SHS");
 
-	private int ea;
+        ea = cpu.fetchAbsoluteYAddress();
+        return 5;
+    }
 
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        cpu.SP = (byte) (cpu.A & cpu.X);
+        final byte val = (byte) (cpu.SP & (byte) (((ea >>> 8) & 0xff) + 1));  // SP & (High byte of address + 1) !!!
+        cpu.bus.writeByte(ea, val);
+    }
 
 }

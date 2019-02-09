@@ -7,31 +7,30 @@ import org.javatari.general.m6502.M6502;
 
 public final class uLAS extends Instruction {
 
-	public uLAS(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uLAS(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode LAS");
+    @Override
+    public int fetch() {
 
-		ea = cpu.fetchAbsoluteYAddress(); return 4 + (cpu.pageCrossed?1:0);		
-	}
-	
-	@Override
-	public void execute() {
-		final byte val = (byte) (cpu.SP & cpu.bus.readByte(ea)); 
-		cpu.A = val;
-		cpu.X = val;
-		cpu.SP = val;
-		cpu.ZERO = val == 0;
-		cpu.NEGATIVE = val < 0;
-	}
+        cpu.debug(">>> Undocumented opcode LAS");
 
-	private int ea;
+        ea = cpu.fetchAbsoluteYAddress();
+        return 4 + (cpu.pageCrossed ? 1 : 0);
+    }
 
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        final byte val = (byte) (cpu.SP & cpu.bus.readByte(ea));
+        cpu.A = val;
+        cpu.X = val;
+        cpu.SP = val;
+        cpu.ZERO = val == 0;
+        cpu.NEGATIVE = val < 0;
+    }
 
 }

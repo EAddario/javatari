@@ -7,31 +7,30 @@ import org.javatari.general.m6502.M6502;
 
 public final class uASR extends Instruction {
 
-	public uASR(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uASR(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode ASR");
+    @Override
+    public int fetch() {
 
-		ea = cpu.fetchImmediateAddress(); return 2;
-	}
+        cpu.debug(">>> Undocumented opcode ASR");
 
-	@Override
-	public void execute() {
-		byte val = (byte) (cpu.A & cpu.bus.readByte(ea)); 
-		cpu.CARRY = (val & 0x01) > 0;		// bit 0 was set
-		val = (byte) ((val & 0xff) >>> 1);
-		cpu.A = val;
-		cpu.ZERO = val == 0;
-		cpu.NEGATIVE = false;
-	}
+        ea = cpu.fetchImmediateAddress();
+        return 2;
+    }
 
-	private int ea;
-	
+    @Override
+    public void execute() {
+        byte val = (byte) (cpu.A & cpu.bus.readByte(ea));
+        cpu.CARRY = (val & 0x01) > 0;        // bit 0 was set
+        val = (byte) ((val & 0xff) >>> 1);
+        cpu.A = val;
+        cpu.ZERO = val == 0;
+        cpu.NEGATIVE = false;
+    }
 
-	public static final long serialVersionUID = 1L;
-	
 }

@@ -7,22 +7,21 @@ import org.javatari.general.m6502.M6502;
 
 public final class PHP extends Instruction {
 
-	public PHP(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public int fetch() {
-		return 3;
-	}
+    public PHP(M6502 cpu) {
+        super(cpu);
+    }
 
-	@Override
-	public void execute() {
-		// Does not perform the dummy PC + 1 read
-		cpu.pushByte(cpu.PS());
-	}
-	
+    @Override
+    public int fetch() {
+        return 3;
+    }
 
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        // Does not perform the dummy PC + 1 read
+        cpu.pushByte(cpu.PS());
+    }
 
 }

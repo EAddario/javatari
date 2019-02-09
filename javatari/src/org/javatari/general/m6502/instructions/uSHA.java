@@ -8,32 +8,35 @@ import org.javatari.general.m6502.OperandType;
 
 public final class uSHA extends Instruction {
 
-	public uSHA(M6502 cpu, int type) {
-		super(cpu);
-		this.type = type;
-	}
+    public static final long serialVersionUID = 1L;
+    private final int type;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uSHA(M6502 cpu, int type) {
+        super(cpu);
+        this.type = type;
+    }
 
-		cpu.debug(">>> Undocumented opcode SHA");
+    @Override
+    public int fetch() {
 
-		if (type == OperandType.ABS_Y) { ea = cpu.fetchAbsoluteYAddress(); return 5; }
-		if (type == OperandType.IND_Y) { ea = cpu.fetchIndirectYAddress(); return 6; }
-		throw new IllegalStateException("uSHA Invalid Operand Type: " + type);
-	}
+        cpu.debug(">>> Undocumented opcode SHA");
 
-	@Override
-	public void execute() {
-		final byte val = (byte) (cpu.A & cpu.X & (byte)(((ea >>> 8) & 0xff) + 1));  // A & X & (High byte of address + 1) !!! 
-		cpu.bus.writeByte(ea, val);
-	}
+        if (type == OperandType.ABS_Y) {
+            ea = cpu.fetchAbsoluteYAddress();
+            return 5;
+        }
+        if (type == OperandType.IND_Y) {
+            ea = cpu.fetchIndirectYAddress();
+            return 6;
+        }
+        throw new IllegalStateException("uSHA Invalid Operand Type: " + type);
+    }
 
-	private final int type;
-	
-	private int ea;
-	
-
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        final byte val = (byte) (cpu.A & cpu.X & (byte) (((ea >>> 8) & 0xff) + 1));  // A & X & (High byte of address + 1) !!!
+        cpu.bus.writeByte(ea, val);
+    }
 
 }

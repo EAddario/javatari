@@ -8,28 +8,31 @@ import org.javatari.general.m6502.OperandType;
 
 public final class JMP extends Instruction {
 
-	public JMP(M6502 cpu, int type) {
-		super(cpu);
-		this.type = type;
-	}
+    public static final long serialVersionUID = 1L;
+    private final int type;
+    private int newPC;
 
-	@Override
-	public int fetch() {
-		if (type == OperandType.ABS) { newPC = cpu.fetchAbsoluteAddress(); return 3; }
-		if (type == OperandType.IND) { newPC = cpu.fetchIndirectAddress(); return 5; }
-		throw new IllegalStateException("JMP Invalid Operand Type: " + type);
-	}
+    public JMP(M6502 cpu, int type) {
+        super(cpu);
+        this.type = type;
+    }
 
-	@Override
-	public void execute() {
-		cpu.PC = newPC; 
-	}
+    @Override
+    public int fetch() {
+        if (type == OperandType.ABS) {
+            newPC = cpu.fetchAbsoluteAddress();
+            return 3;
+        }
+        if (type == OperandType.IND) {
+            newPC = cpu.fetchIndirectAddress();
+            return 5;
+        }
+        throw new IllegalStateException("JMP Invalid Operand Type: " + type);
+    }
 
-	private final int type;
+    @Override
+    public void execute() {
+        cpu.PC = newPC;
+    }
 
-	private int newPC;
-	
-
-	public static final long serialVersionUID = 1L;
-	
 }

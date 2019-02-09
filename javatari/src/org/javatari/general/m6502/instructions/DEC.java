@@ -8,33 +8,42 @@ import org.javatari.general.m6502.OperandType;
 
 public final class DEC extends Instruction {
 
-	public DEC(M6502 cpu, int type) {
-		super(cpu);
-		this.type = type;
-	}
+    public static final long serialVersionUID = 1L;
+    private final int type;
+    private int ea;
 
-	@Override
-	public int fetch() {
-		if (type == OperandType.Z_PAGE) 	{ ea = cpu.fetchZeroPageAddress(); return 5; }
-		if (type == OperandType.Z_PAGE_X) 	{ ea = cpu.fetchZeroPageXAddress(); return 6; }
-		if (type == OperandType.ABS) 		{ ea = cpu.fetchAbsoluteAddress(); return 6; }
-		if (type == OperandType.ABS_X) 		{ ea = cpu.fetchAbsoluteXAddress(); return 7; }
-		throw new IllegalStateException("DEC Invalid Operand Type: " + type); 
-	}
+    public DEC(M6502 cpu, int type) {
+        super(cpu);
+        this.type = type;
+    }
 
-	@Override
-	public void execute() {
-		final byte val = (byte) (cpu.bus.readByte(ea) - 1); 
-		cpu.bus.writeByte(ea, val);
-		cpu.ZERO = val == 0;
-		cpu.NEGATIVE = val < 0;
-	}
+    @Override
+    public int fetch() {
+        if (type == OperandType.Z_PAGE) {
+            ea = cpu.fetchZeroPageAddress();
+            return 5;
+        }
+        if (type == OperandType.Z_PAGE_X) {
+            ea = cpu.fetchZeroPageXAddress();
+            return 6;
+        }
+        if (type == OperandType.ABS) {
+            ea = cpu.fetchAbsoluteAddress();
+            return 6;
+        }
+        if (type == OperandType.ABS_X) {
+            ea = cpu.fetchAbsoluteXAddress();
+            return 7;
+        }
+        throw new IllegalStateException("DEC Invalid Operand Type: " + type);
+    }
 
-	private final int type;
-	
-	private int ea;
-	
-
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        final byte val = (byte) (cpu.bus.readByte(ea) - 1);
+        cpu.bus.writeByte(ea, val);
+        cpu.ZERO = val == 0;
+        cpu.NEGATIVE = val < 0;
+    }
 
 }

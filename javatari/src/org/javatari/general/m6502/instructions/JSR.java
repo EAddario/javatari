@@ -7,27 +7,25 @@ import org.javatari.general.m6502.M6502;
 
 public final class JSR extends Instruction {
 
-	public JSR(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
-		ea = cpu.fetchImmediateAddress();
-		return 6;
-	}
+    public JSR(M6502 cpu) {
+        super(cpu);
+    }
 
-	@Override
-	public void execute() {
-		byte PCL = cpu.bus.readByte(ea);
-		cpu.pushWord(cpu.PC);				// JSR should push the return address - 1
-		byte PCH = cpu.bus.readByte(ea + 1);
-		cpu.PC = (M6502.toUnsignedByte(PCH) << 8) | M6502.toUnsignedByte(PCL);
-	}
+    @Override
+    public int fetch() {
+        ea = cpu.fetchImmediateAddress();
+        return 6;
+    }
 
-	private int ea;
+    @Override
+    public void execute() {
+        byte PCL = cpu.bus.readByte(ea);
+        cpu.pushWord(cpu.PC);                // JSR should push the return address - 1
+        byte PCH = cpu.bus.readByte(ea + 1);
+        cpu.PC = (M6502.toUnsignedByte(PCH) << 8) | M6502.toUnsignedByte(PCL);
+    }
 
-	
-	public static final long serialVersionUID = 1L;
-	
 }

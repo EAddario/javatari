@@ -8,37 +8,58 @@ import org.javatari.general.m6502.OperandType;
 
 public final class ORA extends Instruction {
 
-	public ORA(M6502 cpu, int type) {
-		super(cpu);
-		this.type = type;
-	}
+    public static final long serialVersionUID = 1L;
+    private final int type;
+    private int ea;
 
-	@Override
-	public int fetch() {
-		if (type == OperandType.IMM) 		{ ea = cpu.fetchImmediateAddress(); return 2; }
-		if (type == OperandType.Z_PAGE) 	{ ea = cpu.fetchZeroPageAddress(); return 3; }
-		if (type == OperandType.Z_PAGE_X) 	{ ea = cpu.fetchZeroPageXAddress(); return 4; }
-		if (type == OperandType.ABS) 		{ ea = cpu.fetchAbsoluteAddress(); return 4; }
-		if (type == OperandType.ABS_X) 		{ ea = cpu.fetchAbsoluteXAddress(); return 4 + (cpu.pageCrossed?1:0); }
-		if (type == OperandType.ABS_Y) 		{ ea = cpu.fetchAbsoluteYAddress(); return 4 + (cpu.pageCrossed?1:0); }
-		if (type == OperandType.IND_X) 		{ ea = cpu.fetchIndirectXAddress(); return 6; }
-		if (type == OperandType.IND_Y) 		{ ea = cpu.fetchIndirectYAddress(); return 5 + (cpu.pageCrossed?1:0); }
-		throw new IllegalStateException("ORA Invalid Operand Type: " + type);
-	}
+    public ORA(M6502 cpu, int type) {
+        super(cpu);
+        this.type = type;
+    }
 
-	@Override
-	public void execute() {
-		final byte val = (byte) (cpu.A | cpu.bus.readByte(ea));
-		cpu.A = val;
-		cpu.ZERO = val == 0;
-		cpu.NEGATIVE = val < 0;
-	}
+    @Override
+    public int fetch() {
+        if (type == OperandType.IMM) {
+            ea = cpu.fetchImmediateAddress();
+            return 2;
+        }
+        if (type == OperandType.Z_PAGE) {
+            ea = cpu.fetchZeroPageAddress();
+            return 3;
+        }
+        if (type == OperandType.Z_PAGE_X) {
+            ea = cpu.fetchZeroPageXAddress();
+            return 4;
+        }
+        if (type == OperandType.ABS) {
+            ea = cpu.fetchAbsoluteAddress();
+            return 4;
+        }
+        if (type == OperandType.ABS_X) {
+            ea = cpu.fetchAbsoluteXAddress();
+            return 4 + (cpu.pageCrossed ? 1 : 0);
+        }
+        if (type == OperandType.ABS_Y) {
+            ea = cpu.fetchAbsoluteYAddress();
+            return 4 + (cpu.pageCrossed ? 1 : 0);
+        }
+        if (type == OperandType.IND_X) {
+            ea = cpu.fetchIndirectXAddress();
+            return 6;
+        }
+        if (type == OperandType.IND_Y) {
+            ea = cpu.fetchIndirectYAddress();
+            return 5 + (cpu.pageCrossed ? 1 : 0);
+        }
+        throw new IllegalStateException("ORA Invalid Operand Type: " + type);
+    }
 
-	private final int type;
-	
-	private int ea;
-	
-
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        final byte val = (byte) (cpu.A | cpu.bus.readByte(ea));
+        cpu.A = val;
+        cpu.ZERO = val == 0;
+        cpu.NEGATIVE = val < 0;
+    }
 
 }

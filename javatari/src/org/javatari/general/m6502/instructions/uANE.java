@@ -7,27 +7,26 @@ import org.javatari.general.m6502.M6502;
 
 public final class uANE extends Instruction {
 
-	public uANE(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uANE(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode ANE");
+    @Override
+    public int fetch() {
 
-		ea = cpu.fetchImmediateAddress(); return 2;		
-	}
+        cpu.debug(">>> Undocumented opcode ANE");
 
-	@Override
-	public void execute() {
-		cpu.bus.readByte(ea);
-		// Exact operation unknown. Lets do nothing!
-	}
+        ea = cpu.fetchImmediateAddress();
+        return 2;
+    }
 
-	private int ea;
-	
-
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        cpu.bus.readByte(ea);
+        // Exact operation unknown. Lets do nothing!
+    }
 
 }

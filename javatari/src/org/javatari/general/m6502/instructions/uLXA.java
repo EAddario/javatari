@@ -7,31 +7,30 @@ import org.javatari.general.m6502.M6502;
 
 public final class uLXA extends Instruction {
 
-	public uLXA(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int ea;
 
-	@Override
-	public int fetch() {
+    public uLXA(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode LXA");
+    @Override
+    public int fetch() {
 
-		ea = cpu.fetchImmediateAddress(); return 2;		
-	}
-	
-	@Override
-	// Some sources say its an OR with $EE then AND with IMM, others exclude the OR, others exclude both the OR and the AND. Excluding just the OR
-	public void execute() {
-		byte val = (byte) (cpu.A /* | 0xEE) */ & cpu.bus.readByte(ea)); 
-		cpu.A = val;
-		cpu.X = val;
-		cpu.ZERO = val == 0;
-		cpu.NEGATIVE = val < 0;
-	}
+        cpu.debug(">>> Undocumented opcode LXA");
 
-	private int ea;
+        ea = cpu.fetchImmediateAddress();
+        return 2;
+    }
 
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    // Some sources say its an OR with $EE then AND with IMM, others exclude the OR, others exclude both the OR and the AND. Excluding just the OR
+    public void execute() {
+        byte val = (byte) (cpu.A /* | 0xEE) */ & cpu.bus.readByte(ea));
+        cpu.A = val;
+        cpu.X = val;
+        cpu.ZERO = val == 0;
+        cpu.NEGATIVE = val < 0;
+    }
 
 }

@@ -8,30 +8,28 @@ import org.javatari.general.m6502.M6502;
 
 public final class BRK extends Instruction {
 
-	public BRK(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
+    private int par;
 
-	@Override
-	public int fetch() {
-		// BRK requires one extra unused byte after the opcode, as per specification
-		// Lets use this byte as a parameter for debug purposes!
-		par = M6502.toUnsignedByte(cpu.bus.readByte(cpu.fetchImmediateAddress()));	// This acts like a dummy PC read and increment
+    public BRK(M6502 cpu) {
+        super(cpu);
+    }
 
-		return 7;
-	}
+    @Override
+    public int fetch() {
+        // BRK requires one extra unused byte after the opcode, as per specification
+        // Lets use this byte as a parameter for debug purposes!
+        par = M6502.toUnsignedByte(cpu.bus.readByte(cpu.fetchImmediateAddress()));    // This acts like a dummy PC read and increment
 
-	@Override
-	public void execute() {
-		cpu.debug(">>> BREAK: " + par);
-		cpu.pushWord(cpu.PC);		
-		cpu.pushByte(cpu.PS());
-		cpu.PC = cpu.memoryReadWord(M6502.IRQ_HANDLER_ADDRESS);
-	}
+        return 7;
+    }
 
-	private int par;
-	
+    @Override
+    public void execute() {
+        cpu.debug(">>> BREAK: " + par);
+        cpu.pushWord(cpu.PC);
+        cpu.pushByte(cpu.PS());
+        cpu.PC = cpu.memoryReadWord(M6502.IRQ_HANDLER_ADDRESS);
+    }
 
-	public static final long serialVersionUID = 1L;
-	
 }

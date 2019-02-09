@@ -7,28 +7,27 @@ import org.javatari.general.m6502.M6502;
 
 public final class uKIL extends Instruction {
 
-	public uKIL(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public int fetch() {
+    public uKIL(M6502 cpu) {
+        super(cpu);
+    }
 
-		cpu.debug(">>> Undocumented opcode KIL/HLT/JAM");
+    @Override
+    public int fetch() {
 
-		// Actually no cycles should be taken, as the CPU would Halt. 
-		// But we will simulate a VERY long instruction
-		return Integer.MAX_VALUE;
-	}
+        cpu.debug(">>> Undocumented opcode KIL/HLT/JAM");
 
-	@Override
-	public void execute() {
-		// Forces the CPU to stay stuck in this instruction forever
-		if (cpu.PC == 0) cpu.PC = 0xffff;
-		else cpu.PC--;
-	}
+        // Actually no cycles should be taken, as the CPU would Halt.
+        // But we will simulate a VERY long instruction
+        return Integer.MAX_VALUE;
+    }
 
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        // Forces the CPU to stay stuck in this instruction forever
+        if (cpu.PC == 0) cpu.PC = 0xffff;
+        else cpu.PC--;
+    }
 
 }

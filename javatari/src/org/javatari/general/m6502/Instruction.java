@@ -6,27 +6,24 @@ import java.io.Serializable;
 
 public abstract class Instruction implements Serializable, Cloneable {
 
-	public Instruction(M6502 cpu) {
-		this.cpu = cpu;
-	}
+    public static final long serialVersionUID = 1L;
+    protected transient M6502 cpu;
 
-	public abstract int fetch();	// Should return the number of cycles needed to complete execution
+    public Instruction(M6502 cpu) {
+        this.cpu = cpu;
+    }
 
-	public abstract void execute();
+    public abstract int fetch();    // Should return the number of cycles needed to complete execution
 
-	@Override
-	protected Instruction clone() {
-		try { 
-			return (Instruction)super.clone(); 
-		} catch (CloneNotSupportedException e) {
-			return null;
-		}
-	}
+    public abstract void execute();
 
-	
-	protected transient M6502 cpu;
-
-	
-	public static final long serialVersionUID = 1L;
+    @Override
+    protected Instruction clone() {
+        try {
+            return (Instruction) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 
 }

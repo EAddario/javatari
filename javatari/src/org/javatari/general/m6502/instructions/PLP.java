@@ -7,22 +7,21 @@ import org.javatari.general.m6502.M6502;
 
 public final class PLP extends Instruction {
 
-	public PLP(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public int fetch() {
-		return 4;
-	}
+    public PLP(M6502 cpu) {
+        super(cpu);
+    }
 
-	@Override
-	public void execute() {
-		cpu.dummyStackRead();
-		cpu.PS(cpu.pullByte());
-	}
-	
+    @Override
+    public int fetch() {
+        return 4;
+    }
 
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        cpu.dummyStackRead();
+        cpu.PS(cpu.pullByte());
+    }
 
 }

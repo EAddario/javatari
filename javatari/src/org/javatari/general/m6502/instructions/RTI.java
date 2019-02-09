@@ -7,23 +7,22 @@ import org.javatari.general.m6502.M6502;
 
 public final class RTI extends Instruction {
 
-	public RTI(M6502 cpu) {
-		super(cpu);
-	}
+    public static final long serialVersionUID = 1L;
 
-	@Override
-	public int fetch() {
-		return 6;
-	}
+    public RTI(M6502 cpu) {
+        super(cpu);
+    }
 
-	@Override
-	public void execute() {
-		cpu.dummyStackRead();
-		cpu.PS(cpu.pullByte());
-		cpu.PC = cpu.pullWord();
-	}
-	
+    @Override
+    public int fetch() {
+        return 6;
+    }
 
-	public static final long serialVersionUID = 1L;
+    @Override
+    public void execute() {
+        cpu.dummyStackRead();
+        cpu.PS(cpu.pullByte());
+        cpu.PC = cpu.pullWord();
+    }
 
 }
