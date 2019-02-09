@@ -2,10 +2,6 @@
 
 package org.javatari.pc.room;
 
-import java.awt.Component;
-import java.security.AccessControlException;
-import java.util.ArrayList;
-
 import org.javatari.atari.cartridge.Cartridge;
 import org.javatari.atari.console.Console;
 import org.javatari.atari.network.ClientConsole;
@@ -24,278 +20,278 @@ import org.javatari.pc.screen.Screen;
 import org.javatari.pc.speaker.Speaker;
 import org.javatari.utils.Terminator;
 
+import java.awt.*;
+import java.security.AccessControlException;
+import java.util.ArrayList;
+
 
 public class Room {
-	
-	protected Room() {
-		super();
-	}
 
-	public void powerOn() {
-		screen.powerOn();
-	 	speaker.powerOn();
-	 	awtControls.powerOn();
-	 	insertCartridgeProvidedIfNoneInserted();	// Will power Console ON if Cartridge is provided
-	
-	 	// TODO ServerConsole ROM Auto Load Bug
-	 	// Problem lies here... As the power on control update is sent by the line above,
-	 	// there is a delay... The power on directly sent by the line below is executed first,
-	 	// then the control update (a switch control) is executed and powers the console off
-	 	
-	 	if (currentConsole.cartridgeSocket().inserted() != null && !currentConsole.powerOn) currentConsole.powerOn();
-	}
+    static Room currentRoom;
+    Console currentConsole;
+    private Console standaloneConsole;
+    private ServerConsole serverConsole;
+    private ClientConsole clientConsole;
+    protected Screen screen;
+    private Speaker speaker;
+    AWTConsoleControls awtControls;
+    private FileSaveStateMedia stateMedia;
+    private Cartridge cartridgeProvided;
+    private boolean triedToLoadCartridgeProvided = false;
+    private SettingsDialog settingsDialog;
 
-	public void powerOff() {
-	 	if (currentConsole != null) currentConsole.extendedPowerOff();
-	 	awtControls.powerOff();
-	 	speaker.powerOff();
-		screen.powerOff();
-	}
+    protected Room() {
+        super();
+    }
 
-	public Console currentConsole() {
-		return currentConsole;
-	}
+    public static Room currentRoom() {
+        return currentRoom;
+    }
 
-	public Console standaloneCurrentConsole() {
-		if (currentConsole != standaloneConsole) throw new IllegalStateException("Not a Standalone Room");
-		return standaloneConsole;
-	}
+    public static Room buildStandaloneRoom() {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new Room();
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
+        currentRoom.buildAndPlugStandaloneConsole();
+        return currentRoom;
+    }
 
-	public ServerConsole serverCurrentConsole() {
-		if (currentConsole != serverConsole) throw new IllegalStateException("Not a Server Room");
-		return serverConsole;
-	}
+    public static Room buildServerRoom() {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new Room();
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
+        currentRoom.buildAndPlugServerConsole();
+        return currentRoom;
+    }
 
-	public ClientConsole clientCurrentConsole() {
-		if (currentConsole != clientConsole) throw new IllegalStateException("Not a Client Room");
-		return clientConsole;
-	}
+    public static Room buildClientRoom() {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new Room();
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToClientOperation();
+        currentRoom.buildAndPlugClientConsole();
+        return currentRoom;
+    }
 
-	public Screen screen() {
-		return screen;
-	}
+    public void powerOn() {
+        screen.powerOn();
+        speaker.powerOn();
+        awtControls.powerOn();
+        insertCartridgeProvidedIfNoneInserted();    // Will power Console ON if Cartridge is provided
 
-	public Speaker speaker() {
-		return speaker;
-	}
-	
-	public AWTConsoleControls awtControls() {
-		return awtControls;
-	}
-	
-	public JoystickConsoleControls joystickControls() {
-		return awtControls.joystickControls();
-	}
+        // TODO ServerConsole ROM Auto Load Bug
+        // Problem lies here... As the power on control update is sent by the line above,
+        // there is a delay... The power on directly sent by the line below is executed first,
+        // then the control update (a switch control) is executed and powers the console off
 
-	public FileSaveStateMedia stateMedia() {
-		return stateMedia;
-	}
+        if (currentConsole.cartridgeSocket().inserted() != null && !currentConsole.powerOn) currentConsole.powerOn();
+    }
 
-	public boolean isStandaloneMode() {
-		return currentConsole == standaloneConsole;
-	}
+    public void powerOff() {
+        if (currentConsole != null) currentConsole.extendedPowerOff();
+        awtControls.powerOff();
+        speaker.powerOff();
+        screen.powerOff();
+    }
 
-	public boolean isServerMode() {
-		return currentConsole == serverConsole;
-	}
-	
-	public boolean isClientMode() {
-		return currentConsole == clientConsole;
-	}
-	
-	public void morphToStandaloneMode() {
-		if (isStandaloneMode()) return;
-		powerOff();
-		Cartridge lastCartridge = isClientMode() ? cartridgeProvided : currentConsole.cartridgeSocket().inserted();
-		if (standaloneConsole == null) buildAndPlugStandaloneConsole();
-		else plugConsole(standaloneConsole);
-		adjustPeripheralsToStandaloneOrServerOperation();
-		currentConsole.cartridgeSocket().insert(lastCartridge, false);
-		powerOn();
-	}
+    public Console currentConsole() {
+        return currentConsole;
+    }
 
-	public void morphToServerMode() {
-		if (isServerMode()) return;
-		powerOff();
-		Cartridge lastCartridge = isClientMode() ? cartridgeProvided : currentConsole.cartridgeSocket().inserted();
-		if (serverConsole == null) buildAndPlugServerConsole();
-		else plugConsole(serverConsole);
-		adjustPeripheralsToStandaloneOrServerOperation();
-		currentConsole.cartridgeSocket().insert(lastCartridge, false);
-		powerOn();
-	}
+    public Console standaloneCurrentConsole() {
+        if (currentConsole != standaloneConsole) throw new IllegalStateException("Not a Standalone Room");
+        return standaloneConsole;
+    }
 
-	public void morphToClientMode() {
-		if (isClientMode()) return;
-		powerOff();
-		if (clientConsole == null) buildAndPlugClientConsole();
-		else plugConsole(clientConsole);
-		adjustPeripheralsToClientOperation();
-		powerOn();
-	}
+    public ServerConsole serverCurrentConsole() {
+        if (currentConsole != serverConsole) throw new IllegalStateException("Not a Server Room");
+        return serverConsole;
+    }
 
-	public void openSettings(Component parent) {
-		if (settingsDialog == null) settingsDialog = new SettingsDialog(this);
-		settingsDialog.open(parent);
-	}
+    public ClientConsole clientCurrentConsole() {
+        if (currentConsole != clientConsole) throw new IllegalStateException("Not a Client Room");
+        return clientConsole;
+    }
 
-	public void destroy() {
-		powerOff();
-		if (standaloneConsole != null) standaloneConsole.destroy();
-		if (serverConsole != null) serverConsole.destroy();
-		if (clientConsole != null) clientConsole.destroy();
-		screen.destroy();
-		speaker.destroy();
-		awtControls.destroy();
-		if (settingsDialog != null) {
-			settingsDialog.setVisible(false);
-			settingsDialog.dispose();
-		}
-		currentRoom = null;
-	}
-	
-	protected void buildPeripherals() {
-		// PC interfaces for Video, Audio, Controls, Cartridge and SaveState
-		if (screen != null) throw new IllegalStateException();
-		screen = buildScreenPeripheral();
-		speaker = new Speaker();
-		awtControls = new AWTConsoleControls();
-		awtControls.connectScreen(screen);
-		stateMedia = new FileSaveStateMedia();
-	}
+    public Screen screen() {
+        return screen;
+    }
 
-	protected Screen buildScreenPeripheral() {
-		return buildDesktopScreenPeripheral();
-	}
+    public Speaker speaker() {
+        return speaker;
+    }
 
-	public DesktopScreenWindow buildDesktopScreenPeripheral() {
-		return new DesktopScreenWindow();
-	}
+    public AWTConsoleControls awtControls() {
+        return awtControls;
+    }
 
-	private void plugConsole(Console console) {
-		if (currentConsole == console) return;
-		currentConsole = console;
-		screen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
-		speaker.connect(currentConsole.audioOutput());
-		awtControls.connect(currentConsole.controlsSocket(), currentConsole.cartridgeSocket());
-		stateMedia.connect(currentConsole.saveStateSocket());
-	}
-	
-	private void insertCartridgeProvidedIfNoneInserted() {
-		if (currentConsole.cartridgeSocket().inserted() != null) return;
-		loadCartridgeProvided();
-		if (cartridgeProvided != null) currentConsole.cartridgeSocket().insert(cartridgeProvided, true);
-	}
+    public JoystickConsoleControls joystickControls() {
+        return awtControls.joystickControls();
+    }
 
-	private void loadCartridgeProvided() {
-		if (triedToLoadCartridgeProvided) return;
-		triedToLoadCartridgeProvided = true;
-		if (isClientMode()) return;
-		// First try to load the first built-in ROM
-		ArrayList<BuiltInROM> builtInROMs = BuiltInROM.all();
-		if (builtInROMs.size() > 0) {
-			cartridgeProvided = ROMLoader.load(builtInROMs.get(0));
-			if (cartridgeProvided == null) Terminator.terminate();		// Error loading Cartridge
-			Parameters.SCREEN_CARTRIDGE_CHANGE = false;					// Disable manual Cartridge change
-			screen.monitor().setCartridgeChangeEnabled(false);
-		} else {
-			// If none try to load the Cartridge passed as argument
-			if (Parameters.mainArg != null) {
-				cartridgeProvided = ROMLoader.load(Parameters.mainArg, true);
-				if (cartridgeProvided == null) Terminator.terminate();	// Error loading Cartridge
-			}			
-		}
-	}
+    public FileSaveStateMedia stateMedia() {
+        return stateMedia;
+    }
 
-	protected Console buildAndPlugStandaloneConsole() {
-		if (standaloneConsole != null) throw new IllegalStateException();
-		standaloneConsole = new Console();
-		plugConsole(standaloneConsole);
-		return standaloneConsole;
-	}
+    private boolean isStandaloneMode() {
+        return currentConsole == standaloneConsole;
+    }
 
-	protected ServerConsole buildAndPlugServerConsole() {
-		if (serverConsole != null) throw new IllegalStateException();
-		RemoteTransmitter remoteTransmitter = new RemoteTransmitter();
-		serverConsole = new ServerConsole(remoteTransmitter);
-		plugConsole(serverConsole);
-		return serverConsole;
-	}
-	
-	protected ClientConsole buildAndPlugClientConsole() {
-		RemoteReceiver remoteReceiver = new RemoteReceiver();
-		clientConsole = new ClientConsole(remoteReceiver);
-		plugConsole(clientConsole);
-		return clientConsole;
-	}	
+    public boolean isServerMode() {
+        return currentConsole == serverConsole;
+    }
 
-	protected void adjustPeripheralsToStandaloneOrServerOperation() {
-		awtControls.p1ControlsMode(false);
-		screen.monitor().setCartridgeChangeEnabled(Parameters.SCREEN_CARTRIDGE_CHANGE);
-	}
+    public boolean isClientMode() {
+        return currentConsole == clientConsole;
+    }
 
-	protected void adjustPeripheralsToClientOperation() {
-		awtControls.p1ControlsMode(true);
-		screen.monitor().setCartridgeChangeEnabled(false);
-	}
+    public void morphToStandaloneMode() {
+        if (isStandaloneMode()) return;
+        powerOff();
+        Cartridge lastCartridge = isClientMode() ? cartridgeProvided : currentConsole.cartridgeSocket().inserted();
+        if (standaloneConsole == null) buildAndPlugStandaloneConsole();
+        else plugConsole(standaloneConsole);
+        adjustPeripheralsToStandaloneOrServerOperation();
+        currentConsole.cartridgeSocket().insert(lastCartridge, false);
+        powerOn();
+    }
 
+    public void morphToServerMode() {
+        if (isServerMode()) return;
+        powerOff();
+        Cartridge lastCartridge = isClientMode() ? cartridgeProvided : currentConsole.cartridgeSocket().inserted();
+        if (serverConsole == null) buildAndPlugServerConsole();
+        else plugConsole(serverConsole);
+        adjustPeripheralsToStandaloneOrServerOperation();
+        currentConsole.cartridgeSocket().insert(lastCartridge, false);
+        powerOn();
+    }
 
-	public static Room currentRoom() {
-		return currentRoom;
-	}
+    public void morphToClientMode() {
+        if (isClientMode()) return;
+        powerOff();
+        if (clientConsole == null) buildAndPlugClientConsole();
+        else plugConsole(clientConsole);
+        adjustPeripheralsToClientOperation();
+        powerOn();
+    }
 
-	public static Room buildStandaloneRoom() {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new Room();
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
-		currentRoom.buildAndPlugStandaloneConsole();
-		return currentRoom;
-	}
+    public void openSettings(Component parent) {
+        if (settingsDialog == null) settingsDialog = new SettingsDialog(this);
+        settingsDialog.open(parent);
+    }
 
-	public static Room buildServerRoom() {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new Room();
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
-		currentRoom.buildAndPlugServerConsole();
-		return currentRoom;
-	}
+    public void destroy() {
+        powerOff();
+        if (standaloneConsole != null) standaloneConsole.destroy();
+        if (serverConsole != null) serverConsole.destroy();
+        if (clientConsole != null) clientConsole.destroy();
+        screen.destroy();
+        speaker.destroy();
+        awtControls.destroy();
+        if (settingsDialog != null) {
+            settingsDialog.setVisible(false);
+            settingsDialog.dispose();
+        }
+        currentRoom = null;
+    }
 
-	public static Room buildClientRoom() {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new Room();
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToClientOperation();
-		currentRoom.buildAndPlugClientConsole();
-		return currentRoom;
-	}
+    void buildPeripherals() {
+        // PC interfaces for Video, Audio, Controls, Cartridge and SaveState
+        if (screen != null) throw new IllegalStateException();
+        screen = buildScreenPeripheral();
+        speaker = new Speaker();
+        awtControls = new AWTConsoleControls();
+        awtControls.connectScreen(screen);
+        stateMedia = new FileSaveStateMedia();
+    }
 
-	public void exit() {
-		try {
-			System.out.print("Terminating Javatari... ");
-			destroy();
-			System.out.println("Terminated.");
-			System.exit(0);		
-		} catch(AccessControlException ex) {
-			// Ignore
-		}
-	}
-	
-	protected Console currentConsole;
-	protected Console	standaloneConsole;
-	protected ServerConsole serverConsole;
-	protected ClientConsole clientConsole;
+    protected Screen buildScreenPeripheral() {
+        return buildDesktopScreenPeripheral();
+    }
 
-	protected Screen screen;
-	protected Speaker speaker;
-	protected AWTConsoleControls awtControls;
-	protected FileSaveStateMedia stateMedia;
-	protected Cartridge cartridgeProvided;
-	protected boolean triedToLoadCartridgeProvided = false;
-	protected SettingsDialog settingsDialog;
-	
-	
-	protected static Room currentRoom;
-		
+    DesktopScreenWindow buildDesktopScreenPeripheral() {
+        return new DesktopScreenWindow();
+    }
+
+    private void plugConsole(Console console) {
+        if (currentConsole == console) return;
+        currentConsole = console;
+        screen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
+        speaker.connect(currentConsole.audioOutput());
+        awtControls.connect(currentConsole.controlsSocket(), currentConsole.cartridgeSocket());
+        stateMedia.connect(currentConsole.saveStateSocket());
+    }
+
+    private void insertCartridgeProvidedIfNoneInserted() {
+        if (currentConsole.cartridgeSocket().inserted() != null) return;
+        loadCartridgeProvided();
+        if (cartridgeProvided != null) currentConsole.cartridgeSocket().insert(cartridgeProvided, true);
+    }
+
+    private void loadCartridgeProvided() {
+        if (triedToLoadCartridgeProvided) return;
+        triedToLoadCartridgeProvided = true;
+        if (isClientMode()) return;
+        // First try to load the first built-in ROM
+        ArrayList<BuiltInROM> builtInROMs = BuiltInROM.all();
+        if (builtInROMs.size() > 0) {
+            cartridgeProvided = ROMLoader.load(builtInROMs.get(0));
+            if (cartridgeProvided == null) Terminator.terminate();        // Error loading Cartridge
+            Parameters.SCREEN_CARTRIDGE_CHANGE = false;                    // Disable manual Cartridge change
+            screen.monitor().setCartridgeChangeEnabled(false);
+        } else {
+            // If none try to load the Cartridge passed as argument
+            if (Parameters.mainArg != null) {
+                cartridgeProvided = ROMLoader.load(Parameters.mainArg, true);
+                if (cartridgeProvided == null) Terminator.terminate();    // Error loading Cartridge
+            }
+        }
+    }
+
+    Console buildAndPlugStandaloneConsole() {
+        if (standaloneConsole != null) throw new IllegalStateException();
+        standaloneConsole = new Console();
+        plugConsole(standaloneConsole);
+        return standaloneConsole;
+    }
+
+    ServerConsole buildAndPlugServerConsole() {
+        if (serverConsole != null) throw new IllegalStateException();
+        RemoteTransmitter remoteTransmitter = new RemoteTransmitter();
+        serverConsole = new ServerConsole(remoteTransmitter);
+        plugConsole(serverConsole);
+        return serverConsole;
+    }
+
+    ClientConsole buildAndPlugClientConsole() {
+        RemoteReceiver remoteReceiver = new RemoteReceiver();
+        clientConsole = new ClientConsole(remoteReceiver);
+        plugConsole(clientConsole);
+        return clientConsole;
+    }
+
+    void adjustPeripheralsToStandaloneOrServerOperation() {
+        awtControls.p1ControlsMode(false);
+        screen.monitor().setCartridgeChangeEnabled(Parameters.SCREEN_CARTRIDGE_CHANGE);
+    }
+
+    void adjustPeripheralsToClientOperation() {
+        awtControls.p1ControlsMode(true);
+        screen.monitor().setCartridgeChangeEnabled(false);
+    }
+
+    public void exit() {
+        try {
+            System.out.print("Terminating Javatari... ");
+            destroy();
+            System.out.println("Terminated.");
+            System.exit(0);
+        } catch (AccessControlException ex) {
+            // Ignore
+        }
+    }
+
 }

@@ -2,32 +2,30 @@
 
 package org.javatari.pc.screen;
 
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 public interface MonitorDisplay {
-	
-	public void displayCenter();
-	
-	public void displaySize(Dimension size);
-		
-	public void displayMinimumSize(Dimension size);
-	
-	public void displayFinishFrame(Graphics2D graphics);
 
-	public void displayClear();
-	
-	public Dimension displayEffectiveSize();
-	
-	public Graphics2D displayGraphics();
-		
-	public Container displayContainer();
-	
-	public float displayDefaultOpenningScaleX(int displayWidth, int displayHeight);
-	
-	public void displayRequestFocus();
+    void displayCenter();
 
-	public void displayLeaveFullscreen();
-		
+    void displaySize(Dimension size);
+
+    void displayMinimumSize(Dimension size);
+
+    void displayFinishFrame(Graphics2D graphics);
+
+    void displayClear();
+
+    Dimension displayEffectiveSize();
+
+    Graphics2D displayGraphics();
+
+    Container displayContainer();
+
+    float displayDefaultOpenningScaleX(int displayWidth, int displayHeight);
+
+    void displayRequestFocus();
+
+    void displayLeaveFullscreen();
+
 }

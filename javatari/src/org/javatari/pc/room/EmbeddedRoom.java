@@ -2,88 +2,86 @@
 
 package org.javatari.pc.room;
 
-import javax.swing.RootPaneContainer;
-
 import org.javatari.pc.screen.DesktopScreenWindow;
 import org.javatari.pc.screen.PanelScreen;
 import org.javatari.pc.screen.Screen;
 
+import javax.swing.*;
+
 public class EmbeddedRoom extends Room {
 
-	private EmbeddedRoom(RootPaneContainer rootPaneContainer) {
-		super();
-		this.parentContainer = rootPaneContainer;
-	}
+    private final RootPaneContainer parentContainer;
+    private PanelScreen embeddedScreen;
+    private DesktopScreenWindow windowScreen;
 
-	@Override
-	protected Screen buildScreenPeripheral() {
-		embeddedScreen = new PanelScreen(true);
-		parentContainer.setContentPane(embeddedScreen);
-		return embeddedScreen;
-	}
+    private EmbeddedRoom(RootPaneContainer rootPaneContainer) {
+        super();
+        this.parentContainer = rootPaneContainer;
+    }
 
-	public void popUpScreen(boolean fullScreen) {
-		if (screen != embeddedScreen) return;
-		if (windowScreen == null) windowScreen = buildDesktopScreenPeripheral();
-		currentConsole.pause();
-		windowScreen.monitor().setCartridgeChangeEnabled(embeddedScreen.monitor().isCartridgeChangeEnabled());
-		windowScreen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
-		awtControls.connectScreen(windowScreen);
-		windowScreen.powerOn(fullScreen);
-		embeddedScreen.powerOff();
-		embeddedScreen.setVisible(false);
-		currentConsole.go();
-		screen = windowScreen;
-	}
+    public static Room buildStandaloneRoom(RootPaneContainer rootPaneContainer) {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new EmbeddedRoom(rootPaneContainer);
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
+        currentRoom.buildAndPlugStandaloneConsole();
+        return currentRoom;
+    }
 
-	public void reembedScreen() {
-		if (screen != windowScreen) return;
-		currentConsole.pause();
-		embeddedScreen.monitor().setCartridgeChangeEnabled(windowScreen.monitor().isCartridgeChangeEnabled());
-		embeddedScreen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
-		awtControls.connectScreen(embeddedScreen);
-		embeddedScreen.powerOn();
-		windowScreen.powerOff();
-		windowScreen.setVisible(false);
-		currentConsole.go();
-		screen = embeddedScreen;
-	}
+    public static Room buildServerRoom(RootPaneContainer rootPaneContainer) {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new EmbeddedRoom(rootPaneContainer);
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
+        currentRoom.buildAndPlugServerConsole();
+        return currentRoom;
+    }
 
-	public void exit() {
-		powerOff();
-		// Does not end the entire VM...
-	}
-	
+    public static Room buildClientRoom(RootPaneContainer rootPaneContainer) {
+        if (currentRoom != null) throw new IllegalStateException("Room already built");
+        currentRoom = new EmbeddedRoom(rootPaneContainer);
+        currentRoom.buildPeripherals();
+        currentRoom.adjustPeripheralsToClientOperation();
+        currentRoom.buildAndPlugClientConsole();
+        return currentRoom;
+    }
 
-	public static Room buildStandaloneRoom(RootPaneContainer rootPaneContainer) {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new EmbeddedRoom(rootPaneContainer);
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
-		currentRoom.buildAndPlugStandaloneConsole();
-		return currentRoom;
-	}
+    @Override
+    protected Screen buildScreenPeripheral() {
+        embeddedScreen = new PanelScreen(true);
+        parentContainer.setContentPane(embeddedScreen);
+        return embeddedScreen;
+    }
 
-	public static Room buildServerRoom(RootPaneContainer rootPaneContainer) {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new EmbeddedRoom(rootPaneContainer);
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToStandaloneOrServerOperation();
-		currentRoom.buildAndPlugServerConsole();
-		return currentRoom;
-	}
+    public void popUpScreen(boolean fullScreen) {
+        if (screen != embeddedScreen) return;
+        if (windowScreen == null) windowScreen = buildDesktopScreenPeripheral();
+        currentConsole.pause();
+        windowScreen.monitor().setCartridgeChangeEnabled(embeddedScreen.monitor().isCartridgeChangeEnabled());
+        windowScreen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
+        awtControls.connectScreen(windowScreen);
+        windowScreen.powerOn(fullScreen);
+        embeddedScreen.powerOff();
+        embeddedScreen.setVisible(false);
+        currentConsole.go();
+        screen = windowScreen;
+    }
 
-	public static Room buildClientRoom(RootPaneContainer rootPaneContainer) {
-		if (currentRoom != null) throw new IllegalStateException("Room already built");
-		currentRoom = new EmbeddedRoom(rootPaneContainer);
-		currentRoom.buildPeripherals();
-		currentRoom.adjustPeripheralsToClientOperation();
-		currentRoom.buildAndPlugClientConsole();
-		return currentRoom;
-	}
+    public void reembedScreen() {
+        if (screen != windowScreen) return;
+        currentConsole.pause();
+        embeddedScreen.monitor().setCartridgeChangeEnabled(windowScreen.monitor().isCartridgeChangeEnabled());
+        embeddedScreen.connect(currentConsole.videoOutput(), currentConsole.controlsSocket(), currentConsole.cartridgeSocket(), currentConsole.saveStateSocket());
+        awtControls.connectScreen(embeddedScreen);
+        embeddedScreen.powerOn();
+        windowScreen.powerOff();
+        windowScreen.setVisible(false);
+        currentConsole.go();
+        screen = embeddedScreen;
+    }
 
-
-	private final RootPaneContainer parentContainer;
-	private PanelScreen embeddedScreen;
-	private DesktopScreenWindow windowScreen;
+    public void exit() {
+        powerOff();
+        // Does not end the entire VM...
+    }
 }
