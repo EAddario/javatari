@@ -5,11 +5,14 @@ package org.joy;
 import org.joy.Joy.Info;
 import org.joy.Joy.State;
 
-public class JoyInterface {
+class JoyInterface {
 
-	static synchronized native int getMaxDevices();
-	static synchronized native boolean isConnected(int id);
-	static synchronized native boolean updateInfo(int id, Info info);
-	static synchronized native boolean updateState(int id, State state);
+    static synchronized native int getMaxDevices();
+
+    static synchronized native boolean isConnected(int id);
+
+    static synchronized native boolean updateInfo(int id, Info info);
+
+    static synchronized native boolean updateState(int id, State state);
 
 }
