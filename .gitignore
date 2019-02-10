@@ -65,6 +65,7 @@ cmake-build-relwithdebinfo/
 # IntelliJ
 out/
 target/
+bin/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
