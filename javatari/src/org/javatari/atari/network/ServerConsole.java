@@ -154,7 +154,7 @@ public final class ServerConsole extends Console implements ClockDriven {
                 if (queuedChanges.isEmpty())
                     return null;
                 else {
-                    changesToSend = new ArrayList<ControlChange>(queuedChanges);
+                    changesToSend = new ArrayList<>(queuedChanges);
                     queuedChanges.clear();
                 }
             }
@@ -172,7 +172,7 @@ public final class ServerConsole extends Console implements ClockDriven {
         @Override
         public void insert(Cartridge cartridge, boolean autoPower) {
             // Special case for Savestates
-            if (cartridge != null && cartridge instanceof CartridgeSavestate) {
+            if (cartridge instanceof CartridgeSavestate) {
                 insertSavestateCartridge((CartridgeSavestate) cartridge);
                 return;
             }

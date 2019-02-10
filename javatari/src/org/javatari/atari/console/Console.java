@@ -371,7 +371,7 @@ public class Console {
         @Override
         public void insert(Cartridge cartridge, boolean autoPower) {
             // Special case for Savestates
-            if (cartridge != null && cartridge instanceof CartridgeSavestate) {
+            if (cartridge instanceof CartridgeSavestate) {
                 insertSavestateCartridge((CartridgeSavestate) cartridge);
                 return;
             }
@@ -446,7 +446,7 @@ public class Console {
                 showOSD("State file save failed", true);
         }
 
-        public void saveState(int slot) {
+        void saveState(int slot) {
             if (!powerOn || media == null) return;
             ConsoleState state = pauseAndSaveState();
             if (media.saveState(slot, state))
@@ -455,7 +455,7 @@ public class Console {
                 showOSD("State " + slot + " save failed", true);
         }
 
-        public void loadState(int slot) {
+        void loadState(int slot) {
             if (media == null) return;
             ConsoleState state = media.loadState(slot);
             if (state == null) {
