@@ -59,6 +59,7 @@ public class SlickFrame extends JFrame {
     }
 
     private void finishedResizing() {
+        // Nothing
     }
 
     private void setupMoveAndResizeListener() {

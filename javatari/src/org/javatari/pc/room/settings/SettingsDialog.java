@@ -155,6 +155,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
         refreshInProgress = false;
     }
 
+    @SuppressWarnings("unchecked")
     private void refreshJoysticks() {
         if (refreshInProgress) return;
         refreshInProgress = true;
@@ -166,7 +167,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
             joyP0Device.setSelectedItem(room.joystickControls().getJoystick0DeviceOption());
             joyP0Device.setEnabled(true);
         } else {
-            joyP0Device.setModel(new DefaultComboBoxModel(new Vector<String>(Arrays.asList("Not Supported"))));
+            joyP0Device.setModel(new DefaultComboBoxModel(new Vector<>(Arrays.asList("Not Supported"))));
             joyP0Device.setSelectedIndex(0);
             joyP0Device.setEnabled(false);
         }
@@ -176,7 +177,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
             joyP1Device.setSelectedItem(room.joystickControls().getJoystick1DeviceOption());
             joyP1Device.setEnabled(true);
         } else {
-            joyP1Device.setModel(new DefaultComboBoxModel(new Vector<String>(Arrays.asList("Not Supported"))));
+            joyP1Device.setModel(new DefaultComboBoxModel(new Vector<>(Arrays.asList("Not Supported"))));
             joyP1Device.setSelectedIndex(0);
             joyP1Device.setEnabled(false);
         }
@@ -268,6 +269,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
         refreshInProgress = false;
     }
 
+    @SuppressWarnings("unchecked")
     private void refreshCartridge() {
         if (refreshInProgress) return;
         refreshInProgress = true;
@@ -803,6 +805,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void buildGUI() {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setModal(true);

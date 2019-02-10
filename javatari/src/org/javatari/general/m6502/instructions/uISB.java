@@ -59,13 +59,12 @@ public final class uISB extends Instruction {
         cpu.bus.writeByte(ea, val);
 
         // Same as SBC from here
-        final int b = val;
         final int uB = M6502.toUnsignedByte(val);
         final int oldA = cpu.A;
         final int uOldA = M6502.toUnsignedByte(oldA);
 
         int oldCarryNot = cpu.CARRY ? 0 : 1;
-        final int aux = oldA - b - oldCarryNot;
+        final int aux = oldA - (int) val - oldCarryNot;
         int uAux = uOldA - uB - oldCarryNot;
 
         // Flags are affected always as in Binary mode

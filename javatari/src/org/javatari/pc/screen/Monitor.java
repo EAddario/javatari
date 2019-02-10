@@ -347,7 +347,7 @@ public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsert
         Graphics2D displayGraphics = display.displayGraphics();
         displayGraphics.setComposite(AlphaComposite.Src);
         // Adjusts the Render Quality if needed
-        if (displayGraphics != null && crtFilter)
+        if (crtFilter)
             displayGraphics.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         return displayGraphics;
     }

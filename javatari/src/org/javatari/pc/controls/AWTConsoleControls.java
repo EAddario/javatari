@@ -106,6 +106,7 @@ public final class AWTConsoleControls extends KeyFilteredRepeatsAdapter implemen
     }
 
     public void destroy() {
+        // Nothing
     }
 
     @Override

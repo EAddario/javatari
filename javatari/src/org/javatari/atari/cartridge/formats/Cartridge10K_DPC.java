@@ -214,7 +214,6 @@ public class Cartridge10K_DPC extends CartridgeBankedByMaskedRange {
         // Random Number reset
         if (reg >= 0x70 && reg <= 0x77) {
             randomNumber = (byte) 0x00;
-            return;
         }
         // 0x78 - 0x7f Not used
     }
