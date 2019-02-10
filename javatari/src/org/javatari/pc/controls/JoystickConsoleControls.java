@@ -19,7 +19,7 @@ import java.util.Vector;
 
 public final class JoystickConsoleControls implements ConsoleControls {
 
-    private static int JOYSTICK_UPDATE_SLEEP = 1000 / Parameters.JOYSTICK_UPDATE_RATE;
+    private static final int JOYSTICK_UPDATE_SLEEP = 1000 / Parameters.JOYSTICK_UPDATE_RATE;
     private final AWTConsoleControls awtControls;
     private boolean deviceListFailed = false;
     public boolean swappedMode = false;

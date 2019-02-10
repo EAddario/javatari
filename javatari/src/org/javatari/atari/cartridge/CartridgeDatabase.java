@@ -130,14 +130,14 @@ public class CartridgeDatabase {
                     ".*PITFALL.*(2|II).*"
             })
     };
-    private static String CARTRIDGE_NAME = Parameters.CARTRIDGE_NAME;
-    private static String CARTRIDGE_LABEL = Parameters.CARTRIDGE_LABEL;
-    private static int CARTRIDGE_LABEL_COLOR = Parameters.CARTRIDGE_LABEL_COLOR;
-    private static int CARTRIDGE_BACK_COLOR = Parameters.CARTRIDGE_BACK_COLOR;
-    private static int CARTRIDGE_BORDER_COLOR = Parameters.CARTRIDGE_BORDER_COLOR;
-    private static int CARTRIDGE_PADDLES = Parameters.CARTRIDGE_PADDLES;
-    private static int CARTRIDGE_CRT_MODE = Parameters.CARTRIDGE_CRT_MODE;
-    private static String CARTRIDGE_FORMAT = Parameters.CARTRIDGE_FORMAT;
+    private static final String CARTRIDGE_NAME = Parameters.CARTRIDGE_NAME;
+    private static final String CARTRIDGE_LABEL = Parameters.CARTRIDGE_LABEL;
+    private static final int CARTRIDGE_LABEL_COLOR = Parameters.CARTRIDGE_LABEL_COLOR;
+    private static final int CARTRIDGE_BACK_COLOR = Parameters.CARTRIDGE_BACK_COLOR;
+    private static final int CARTRIDGE_BORDER_COLOR = Parameters.CARTRIDGE_BORDER_COLOR;
+    private static final int CARTRIDGE_PADDLES = Parameters.CARTRIDGE_PADDLES;
+    private static final int CARTRIDGE_CRT_MODE = Parameters.CARTRIDGE_CRT_MODE;
+    private static final String CARTRIDGE_FORMAT = Parameters.CARTRIDGE_FORMAT;
 
     public static ArrayList<CartridgeFormatOption> getFormatOptions(ROM rom) throws ROMFormatUnsupportedException {
         ROMFormatDenialDetailException exDenialDetail = null;

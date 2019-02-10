@@ -15,12 +15,12 @@ import java.io.Serializable;
 public final class ConsoleState implements Serializable {
 
     public static final long serialVersionUID = 2L;
-    public TIAState tiaState;
-    public PIAState piaState;
-    public RAMState ramState;
-    public M6502State cpuState;
-    public Cartridge cartridge;
-    public VideoStandard videoStandard;
+    public final TIAState tiaState;
+    public final PIAState piaState;
+    public final RAMState ramState;
+    public final M6502State cpuState;
+    public final Cartridge cartridge;
+    public final VideoStandard videoStandard;
 
 
     public ConsoleState(TIAState tia, PIAState pia, RAMState ram, M6502State cpu, Cartridge cartridge, VideoStandard videoStandard) {

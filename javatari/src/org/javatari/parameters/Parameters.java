@@ -115,13 +115,13 @@ public final class Parameters {
     public static int CARTRIDGE_PADDLES = -1;
     public static int CARTRIDGE_CRT_MODE = -1;
     public static String CARTRIDGE_FORMAT = null;
-    public static String DEFAULT_CARTRIDGE_LABEL = "JAVATARI 2600";
+    public static final String DEFAULT_CARTRIDGE_LABEL = "JAVATARI 2600";
     public static int DEFAULT_CARTRIDGE_LABEL_COLOR = 0xeb2820;
     public static int DEFAULT_CARTRIDGE_BACK_COLOR = 0x141414;
     public static int PADDLES_MODE = -1;                                // -1 = AUTO, 0 = Force OFF, 1 = Force ON
     public static int JOYSTICK_UPDATE_RATE = 120;                        // In Hz
-    public static String OFFICIAL_WEBSITE = "http://javatari.org";
-    public static String TWITTER_WEBPAGE = "http://twitter.com/ppeccin";
+    public static final String OFFICIAL_WEBSITE = "http://javatari.org";
+    public static final String TWITTER_WEBPAGE = "http://twitter.com/ppeccin";
     public static int KEY_P0_LEFT = DEFAULT_KEY_P0_LEFT;
     public static int KEY_P0_UP = DEFAULT_KEY_P0_UP;
     public static int KEY_P0_RIGHT = DEFAULT_KEY_P0_RIGHT;
