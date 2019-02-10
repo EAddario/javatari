@@ -1324,10 +1324,9 @@ public final class TIA implements BUS16Bits, ClockDriven, ConsoleControlsInput {
         if (reg == 0x2C) { /*CXCLR  = i;*/
             observableChange();
             CXM0P = CXM1P = CXP0FB = CXP1FB = CXM0FB = CXM1FB = CXBLPF = CXPPMM = 0;
-            return;
         }
-        if (reg == 0x03) { /*RSYNC  = i;*/ /* clock = 0; */
-        }
+        //if (reg == 0x03) { /*RSYNC  = i;*/ /* clock = 0; */
+        //}
 
         // debugInfo(String.format("Invalid TIA write register address: %04x value %d", address, b));
     }

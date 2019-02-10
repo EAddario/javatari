@@ -16,7 +16,7 @@ public class CartridgeFormatOption implements Comparable<CartridgeFormatOption> 
 
     @Override
     public int compareTo(CartridgeFormatOption o) {
-        return new Integer(priority).compareTo(o.priority);
+        return Integer.compare(priority, o.priority);
     }
 
     @Override
