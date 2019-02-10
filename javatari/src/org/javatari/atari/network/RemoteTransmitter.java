@@ -188,7 +188,7 @@ public final class RemoteTransmitter {
                                 }
                             }
                         }
-                    } catch (Exception ex) {
+                    } catch (Exception ignored) {
                     }
                     // Exception while connected or interrupted. Try to disconnect
                     disconnect();
