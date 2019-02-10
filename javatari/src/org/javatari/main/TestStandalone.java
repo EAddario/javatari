@@ -18,7 +18,7 @@ public final class TestStandalone {
         Parameters.init(args);
 
         // Force test Cartridge as main argument
-        Parameters.mainArg = "file:///C:/cartridges/Hero.bin";
+        Parameters.mainArg = "file:///Hero.bin";
 
         // Build a Room for Standalone play
         final Room room = Room.buildStandaloneRoom();
