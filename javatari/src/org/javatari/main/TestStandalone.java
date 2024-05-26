@@ -18,7 +18,7 @@ public final class TestStandalone {
         Parameters.init(args);
 
         // Force test Cartridge as main argument
-        Parameters.mainArg = "file:///Hero.bin";
+        Parameters.mainArg = "file:./javatari/src/roms/Maze.bin";
 
         // Build a Room for Standalone play
         final Room room = Room.buildStandaloneRoom();
