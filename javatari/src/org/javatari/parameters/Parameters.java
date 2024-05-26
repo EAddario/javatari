@@ -16,7 +16,7 @@ public final class Parameters {
 
     // Main Version info
     public static final String TITLE = "Javatari";
-    public static final String VERSION = "5.7";
+    public static final String VERSION = "6.12-EA";
     private static final int DEFAULT_KEY_P0_LEFT = KeyEvent.VK_LEFT;
     private static final int DEFAULT_KEY_P0_UP = KeyEvent.VK_UP;
     private static final int DEFAULT_KEY_P0_RIGHT = KeyEvent.VK_RIGHT;
@@ -171,7 +171,7 @@ public final class Parameters {
     public static String LAST_ROM_LOAD_FILE_CHOSEN = "";
     public static String LAST_ROM_LOAD_URL_CHOSEN = "";
     public static String LAST_ROM_SAVE_FILE_CHOSEN = "";
-    private static Properties props = new Properties();
+    private static final Properties props = new Properties();
     private static Preferences userPreferences;
     private static boolean userPreferencesAsked = false;
 
@@ -259,13 +259,10 @@ public final class Parameters {
     }
 
     private static void loadPropertiesFile() {
-        InputStream is = Thread.currentThread().getContextClassLoader().
-                getResourceAsStream("javatari.properties");
         try {
-            try {
+            try (InputStream is = Thread.currentThread().getContextClassLoader().
+                    getResourceAsStream("javatari.properties")) {
                 props.load(is);
-            } finally {
-                is.close();
             }
         } catch (Exception ex) {
             System.out.println("javatari.properties not found, using defaults");
@@ -446,117 +443,117 @@ public final class Parameters {
         String val;
         try {
             val = props.getProperty("TIA_FORCED_CLOCK");
-            if (val != null) TIA_FORCED_CLOCK = Double.valueOf(val);
+            if (val != null) TIA_FORCED_CLOCK = Double.parseDouble(val);
             val = props.getProperty("TIA_SYNC_WITH_AUDIO_MONITOR");
-            if (val != null) TIA_SYNC_WITH_AUDIO_MONITOR = Boolean.valueOf(val);
+            if (val != null) TIA_SYNC_WITH_AUDIO_MONITOR = Boolean.parseBoolean(val);
             val = props.getProperty("TIA_SYNC_WITH_VIDEO_MONITOR");
-            if (val != null) TIA_SYNC_WITH_VIDEO_MONITOR = Boolean.valueOf(val);
+            if (val != null) TIA_SYNC_WITH_VIDEO_MONITOR = Boolean.parseBoolean(val);
 
             val = props.getProperty("VIDEO_NTSC_FPS");
-            if (val != null) VIDEO_NTSC_FPS = Double.valueOf(val);
+            if (val != null) VIDEO_NTSC_FPS = Double.parseDouble(val);
             val = props.getProperty("VIDEO_PAL_FPS");
-            if (val != null) VIDEO_PAL_FPS = Double.valueOf(val);
+            if (val != null) VIDEO_PAL_FPS = Double.parseDouble(val);
 
             val = props.getProperty("TIA_AUDIO_SAMPLE_RATE");
-            if (val != null) TIA_AUDIO_SAMPLE_RATE = Integer.valueOf(val);
+            if (val != null) TIA_AUDIO_SAMPLE_RATE = Integer.parseInt(val);
             val = props.getProperty("TIA_AUDIO_MAX_AMPLITUDE");
-            if (val != null) TIA_AUDIO_MAX_AMPLITUDE = Float.valueOf(val);
+            if (val != null) TIA_AUDIO_MAX_AMPLITUDE = Float.parseFloat(val);
             val = props.getProperty("TIA_AUDIO_SEND_CHUNK");
-            if (val != null) TIA_AUDIO_SEND_CHUNK = Integer.valueOf(val);
+            if (val != null) TIA_AUDIO_SEND_CHUNK = Integer.parseInt(val);
             val = props.getProperty("TIA_AUDIO_MIN_MONITOR_BUFFER_CHUNKS");
-            if (val != null) TIA_AUDIO_MIN_MONITOR_BUFFER_CHUNKS = Integer.valueOf(val);
+            if (val != null) TIA_AUDIO_MIN_MONITOR_BUFFER_CHUNKS = Integer.parseInt(val);
             val = props.getProperty("TIA_AUDIO_MONITOR_BUFFER_CHUNKS_ADD_FACTOR");
-            if (val != null) TIA_AUDIO_MONITOR_BUFFER_CHUNKS_ADD_FACTOR = Integer.valueOf(val);
+            if (val != null) TIA_AUDIO_MONITOR_BUFFER_CHUNKS_ADD_FACTOR = Integer.parseInt(val);
 
             val = props.getProperty("RAM_FRY_ZERO_BITS");
-            if (val != null) RAM_FRY_ZERO_BITS = Integer.valueOf(val);
+            if (val != null) RAM_FRY_ZERO_BITS = Integer.parseInt(val);
             val = props.getProperty("RAM_FRY_ONE_BITS");
-            if (val != null) RAM_FRY_ONE_BITS = Integer.valueOf(val);
+            if (val != null) RAM_FRY_ONE_BITS = Integer.parseInt(val);
             val = props.getProperty("RAM_FRY_VARIANCE");
-            if (val != null) RAM_FRY_VARIANCE = Float.valueOf(val);
+            if (val != null) RAM_FRY_VARIANCE = Float.parseFloat(val);
             val = props.getProperty("BUS_DATA_RETENTION");
-            if (val != null) BUS_DATA_RETENTION = Boolean.valueOf(val);
+            if (val != null) BUS_DATA_RETENTION = Boolean.parseBoolean(val);
             val = props.getProperty("CONSOLE_ALTERNATE_CLOCK_FACTOR");
-            if (val != null) CONSOLE_ALTERNATE_CLOCK_FACTOR = Float.valueOf(val);
+            if (val != null) CONSOLE_ALTERNATE_CLOCK_FACTOR = Float.parseFloat(val);
 
             val = props.getProperty("SCREEN_DEFAULT_FPS");
-            if (val != null) SCREEN_DEFAULT_FPS = Double.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_FPS = Double.parseDouble(val);
             val = props.getProperty("SCREEN_BUFFER_VSYNC");
-            if (val != null) SCREEN_BUFFER_VSYNC = Integer.valueOf(val);
+            if (val != null) SCREEN_BUFFER_VSYNC = Integer.parseInt(val);
             val = props.getProperty("SCREEN_BUFFER_SYNC_WAIT");
-            if (val != null) SCREEN_BUFFER_SYNC_WAIT = Boolean.valueOf(val);
+            if (val != null) SCREEN_BUFFER_SYNC_WAIT = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_DEFAULT_ORIGIN_X");
-            if (val != null) SCREEN_DEFAULT_ORIGIN_X = Integer.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_ORIGIN_X = Integer.parseInt(val);
             val = props.getProperty("SCREEN_DEFAULT_ORIGIN_Y_PCT");
-            if (val != null) SCREEN_DEFAULT_ORIGIN_Y_PCT = Double.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_ORIGIN_Y_PCT = Double.parseDouble(val);
             val = props.getProperty("SCREEN_DEFAULT_WIDTH");
-            if (val != null) SCREEN_DEFAULT_WIDTH = Integer.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_WIDTH = Integer.parseInt(val);
             val = props.getProperty("SCREEN_DEFAULT_HEIGHT_PCT");
-            if (val != null) SCREEN_DEFAULT_HEIGHT_PCT = Double.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_HEIGHT_PCT = Double.parseDouble(val);
             val = props.getProperty("SCREEN_DEFAULT_SCALE_X");
-            if (val != null) SCREEN_DEFAULT_SCALE_X = Float.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_SCALE_X = Float.parseFloat(val);
             val = props.getProperty("SCREEN_DEFAULT_SCALE_Y");
-            if (val != null) SCREEN_DEFAULT_SCALE_Y = Float.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_SCALE_Y = Float.parseFloat(val);
             val = props.getProperty("SCREEN_DEFAULT_SCALE_ASPECT_X");
-            if (val != null) SCREEN_DEFAULT_SCALE_ASPECT_X = Float.valueOf(val);
+            if (val != null) SCREEN_DEFAULT_SCALE_ASPECT_X = Float.parseFloat(val);
             val = props.getProperty("SCREEN_BORDER_SIZE");
-            if (val != null) SCREEN_BORDER_SIZE = Integer.valueOf(val);
+            if (val != null) SCREEN_BORDER_SIZE = Integer.parseInt(val);
             val = props.getProperty("SCREEN_OSD_FRAMES");
-            if (val != null) SCREEN_OSD_FRAMES = Integer.valueOf(val);
+            if (val != null) SCREEN_OSD_FRAMES = Integer.parseInt(val);
             val = props.getProperty("SCREEN_VSYNC_TOLERANCE");
-            if (val != null) SCREEN_VSYNC_TOLERANCE = Integer.valueOf(val);
+            if (val != null) SCREEN_VSYNC_TOLERANCE = Integer.parseInt(val);
             val = props.getProperty("SCREEN_CRT_FILTER");
-            if (val != null) SCREEN_CRT_FILTER = Boolean.valueOf(val);
+            if (val != null) SCREEN_CRT_FILTER = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_CRT_MODE");
-            if (val != null) SCREEN_CRT_MODE = Integer.valueOf(val);
+            if (val != null) SCREEN_CRT_MODE = Integer.parseInt(val);
             val = props.getProperty("SCREEN_CRT_RETENTION_ALPHA");
-            if (val != null) SCREEN_CRT_RETENTION_ALPHA = Float.valueOf(val);
+            if (val != null) SCREEN_CRT_RETENTION_ALPHA = Float.parseFloat(val);
             val = props.getProperty("SCREEN_SCANLINES_STRENGTH");
-            if (val != null) SCREEN_SCANLINES_STRENGTH = Float.valueOf(val);
+            if (val != null) SCREEN_SCANLINES_STRENGTH = Float.parseFloat(val);
             val = props.getProperty("SCREEN_MULTI_BUFFERING");
-            if (val != null) SCREEN_MULTI_BUFFERING = Integer.valueOf(val);
+            if (val != null) SCREEN_MULTI_BUFFERING = Integer.parseInt(val);
             val = props.getProperty("SCREEN_PAGE_FLIPPING");
-            if (val != null) SCREEN_PAGE_FLIPPING = Boolean.valueOf(val);
+            if (val != null) SCREEN_PAGE_FLIPPING = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_CONSOLE_PANEL");
-            if (val != null) SCREEN_CONSOLE_PANEL = Boolean.valueOf(val);
+            if (val != null) SCREEN_CONSOLE_PANEL = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_FRAME_ACCELERATION");
-            if (val != null) SCREEN_FRAME_ACCELERATION = Float.valueOf(val);
+            if (val != null) SCREEN_FRAME_ACCELERATION = Float.parseFloat(val);
             val = props.getProperty("SCREEN_INTERM_FRAME_ACCELERATION");
-            if (val != null) SCREEN_INTERM_FRAME_ACCELERATION = Float.valueOf(val);
+            if (val != null) SCREEN_INTERM_FRAME_ACCELERATION = Float.parseFloat(val);
             val = props.getProperty("SCREEN_SCANLINES_ACCELERATION");
-            if (val != null) SCREEN_SCANLINES_ACCELERATION = Float.valueOf(val);
+            if (val != null) SCREEN_SCANLINES_ACCELERATION = Float.parseFloat(val);
             val = props.getProperty("SCREEN_FIXED_SIZE");
-            if (val != null) SCREEN_FIXED_SIZE = Boolean.valueOf(val);
+            if (val != null) SCREEN_FIXED_SIZE = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_FULLSCREEN");
-            if (val != null) SCREEN_FULLSCREEN = Boolean.valueOf(val);
+            if (val != null) SCREEN_FULLSCREEN = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_USE_FSEM");
-            if (val != null) SCREEN_USE_FSEM = Integer.valueOf(val);
+            if (val != null) SCREEN_USE_FSEM = Integer.parseInt(val);
             val = props.getProperty("SCREEN_EMBEDDED_POPUP");
-            if (val != null) SCREEN_EMBEDDED_POPUP = Boolean.valueOf(val);
+            if (val != null) SCREEN_EMBEDDED_POPUP = Boolean.parseBoolean(val);
             val = props.getProperty("SCREEN_CARTRIDGE_CHANGE");
-            if (val != null) SCREEN_CARTRIDGE_CHANGE = Boolean.valueOf(val);
+            if (val != null) SCREEN_CARTRIDGE_CHANGE = Boolean.parseBoolean(val);
 
             val = props.getProperty("SPEAKER_DEFAULT_FPS");
-            if (val != null) SPEAKER_DEFAULT_FPS = Double.valueOf(val);
+            if (val != null) SPEAKER_DEFAULT_FPS = Double.parseDouble(val);
             val = props.getProperty("SPEAKER_INPUT_BUFFER_SIZE");
-            if (val != null) SPEAKER_INPUT_BUFFER_SIZE = Integer.valueOf(val);
+            if (val != null) SPEAKER_INPUT_BUFFER_SIZE = Integer.parseInt(val);
             val = props.getProperty("SPEAKER_OUTPUT_BUFFER_SIZE");
-            if (val != null) SPEAKER_OUTPUT_BUFFER_SIZE = Integer.valueOf(val);
+            if (val != null) SPEAKER_OUTPUT_BUFFER_SIZE = Integer.parseInt(val);
             val = props.getProperty("SPEAKER_OUTPUT_BUFFER_FULL_SLEEP_TIME");
-            if (val != null) SPEAKER_OUTPUT_BUFFER_FULL_SLEEP_TIME = Integer.valueOf(val);
+            if (val != null) SPEAKER_OUTPUT_BUFFER_FULL_SLEEP_TIME = Integer.parseInt(val);
             val = props.getProperty("SPEAKER_NO_DATA_SLEEP_TIME");
-            if (val != null) SPEAKER_NO_DATA_SLEEP_TIME = Integer.valueOf(val);
+            if (val != null) SPEAKER_NO_DATA_SLEEP_TIME = Integer.parseInt(val);
             val = props.getProperty("SPEAKER_ADDED_THREAD_PRIORITY");
-            if (val != null) SPEAKER_ADDED_THREAD_PRIORITY = Integer.valueOf(val);
+            if (val != null) SPEAKER_ADDED_THREAD_PRIORITY = Integer.parseInt(val);
 
             val = props.getProperty("MULTIPLAYER_UI");
-            if (val != null) MULTIPLAYER_UI = Boolean.valueOf(val);
+            if (val != null) MULTIPLAYER_UI = Boolean.parseBoolean(val);
             val = props.getProperty("SERVER_SERVICE_PORT");
-            if (val != null) SERVER_SERVICE_PORT = Integer.valueOf(val);
+            if (val != null) SERVER_SERVICE_PORT = Integer.parseInt(val);
             val = props.getProperty("SERVER_MAX_UPDATES_PENDING");
-            if (val != null) SERVER_MAX_UPDATES_PENDING = Integer.valueOf(val);
+            if (val != null) SERVER_MAX_UPDATES_PENDING = Integer.parseInt(val);
             val = props.getProperty("CLIENT_MAX_UPDATES_PENDING");
-            if (val != null) CLIENT_MAX_UPDATES_PENDING = Integer.valueOf(val);
+            if (val != null) CLIENT_MAX_UPDATES_PENDING = Integer.parseInt(val);
 
             val = props.getProperty("CARTRIDGE_NAME");
             if (val != null && !val.isEmpty()) CARTRIDGE_NAME = val;
@@ -565,16 +562,16 @@ public final class Parameters {
             val = props.getProperty("CARTRIDGE_LABEL_COLORS");
             if (val != null && !val.isEmpty()) CARTRIDGE_LABEL_COLORS = val;
             val = props.getProperty("CARTRIDGE_PADDLES");
-            if (val != null && !val.isEmpty()) CARTRIDGE_PADDLES = Integer.valueOf(val);
+            if (val != null && !val.isEmpty()) CARTRIDGE_PADDLES = Integer.parseInt(val);
             val = props.getProperty("CARTRIDGE_CRT_MODE");
-            if (val != null && !val.isEmpty()) CARTRIDGE_CRT_MODE = Integer.valueOf(val);
+            if (val != null && !val.isEmpty()) CARTRIDGE_CRT_MODE = Integer.parseInt(val);
             val = props.getProperty("CARTRIDGE_FORMAT");
             if (val != null && !val.isEmpty()) CARTRIDGE_FORMAT = val;
 
             val = props.getProperty("PADDLES_MODE");
-            if (val != null && !val.isEmpty()) PADDLES_MODE = Integer.valueOf(val);
+            if (val != null && !val.isEmpty()) PADDLES_MODE = Integer.parseInt(val);
             val = props.getProperty("JOYSTICK_UPDATE_RATE");
-            if (val != null && !val.isEmpty()) JOYSTICK_UPDATE_RATE = Integer.valueOf(val);
+            if (val != null && !val.isEmpty()) JOYSTICK_UPDATE_RATE = Integer.parseInt(val);
 
             if (CARTRIDGE_LABEL_COLORS != null) {
                 setCartridgeLabelColors(CARTRIDGE_LABEL_COLORS);

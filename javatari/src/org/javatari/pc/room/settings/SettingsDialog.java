@@ -682,7 +682,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
                     String portString = serverPortTf.getText().trim();
                     try {
                         if (portString.isEmpty()) transmitter.start();
-                        else transmitter.start(Integer.valueOf(portString));
+                        else transmitter.start(Integer.parseInt(portString));
                     } catch (NumberFormatException e) {
                         throw new IllegalArgumentException("Invalid port number: " + portString);
                     }
