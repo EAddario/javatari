@@ -4,7 +4,7 @@ package org.javatari.atari.tia.video;
 
 public final class NTSCPalette {
 
-    private static int[] baseRGB = {
+    private static final int[] baseRGB = {
             0x000000,        // 00
             0x404040,        // 02
             0x6c6c6c,        // 04

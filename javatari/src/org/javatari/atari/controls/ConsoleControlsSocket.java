@@ -12,7 +12,7 @@ import java.util.Map;
 public class ConsoleControlsSocket implements ConsoleControlsInput {
 
     private List<ConsoleControlsInput> forwardedInputs = new ArrayList<>();
-    private List<ConsoleControlsRedefinitionListener> redefinitonListeners = new ArrayList<>();
+    private final List<ConsoleControlsRedefinitionListener> redefinitonListeners = new ArrayList<>();
 
     @Override
     public void controlStateChanged(Control control, boolean state) {

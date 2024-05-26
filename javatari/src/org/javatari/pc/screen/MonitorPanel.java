@@ -30,7 +30,7 @@ public final class MonitorPanel extends HotspotPanel implements MonitorDisplay {
     public static final long serialVersionUID = 1L;
     private static final Insets SLICK_INSETS = new Insets(4, 4, 30, 4);
     private static final boolean EMBEDDED_POPUP = Parameters.SCREEN_EMBEDDED_POPUP;
-    private Monitor monitor;
+    private final Monitor monitor;
     private Canvas canvas;
     private BufferStrategy bufferStrategy;
     private boolean popupEnabled;

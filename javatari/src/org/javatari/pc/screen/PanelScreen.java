@@ -15,7 +15,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class PanelScreen extends JPanel implements Screen {
@@ -70,7 +70,7 @@ public final class PanelScreen extends JPanel implements Screen {
 
     @Override
     public List<Component> keyControlsInputComponents() {
-        List<Component> comps = new ArrayList<>(Arrays.asList((Component) this));
+        List<Component> comps = new ArrayList<>(Collections.singletonList((Component) this));
         comps.addAll(monitorPanel.keyControlsInputComponents());
         if (consolePanel != null) comps.add(consolePanel);
         return comps;

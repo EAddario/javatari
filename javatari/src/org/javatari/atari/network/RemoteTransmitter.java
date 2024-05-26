@@ -26,7 +26,7 @@ public final class RemoteTransmitter {
     private InputStream socketInputStream;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
+    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
 
     public RemoteTransmitter() {
         updates = new ConcurrentLinkedQueue<>();

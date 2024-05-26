@@ -12,13 +12,13 @@ import org.javatari.general.board.ClockDriven;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
 public final class ClientConsole extends Console implements ClockDriven {
 
-    private static List<Control> DISABLED_CONTROLS = Arrays.asList(Control.CARTRIDGE_FORMAT);
+    private static final List<Control> DISABLED_CONTROLS = Collections.singletonList(Control.CARTRIDGE_FORMAT);
     private RemoteReceiver remoteReceiver;
     private boolean isPaused = false;        // To control the pause/go mechanism
 

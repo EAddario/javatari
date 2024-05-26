@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 public final class RAM64k implements BUS16Bits {
 
-    private byte[] bytes = new byte[65536];
+    private final byte[] bytes = new byte[65536];
 
     public RAM64k() {
         Arrays.fill(bytes, (byte) 0x00);

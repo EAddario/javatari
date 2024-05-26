@@ -17,8 +17,8 @@ public class HotspotPanel extends JPanel {
     private MousePressAndMotionListener forwardListener;
     private MousePressAndMotionListener mouseListener;
     private boolean hotspotsEffectiveAreasValid = false;
-    private List<HotspotAction> hotspots = new ArrayList<>();
-    private List<HotspotAction> hotspotsWithTooltip = new ArrayList<>();
+    private final List<HotspotAction> hotspots = new ArrayList<>();
+    private final List<HotspotAction> hotspotsWithTooltip = new ArrayList<>();
     private HotspotAction activeHotspot;
 
     public HotspotPanel() throws HeadlessException {
@@ -181,7 +181,7 @@ public class HotspotPanel extends JPanel {
         effArea.y = area.y == CENTER_HOTSPOT ? (getHeight() - area.height) / 2 : area.y < 0 ? getHeight() + area.y : area.y;
     }
 
-    public class HotspotAction {
+    public static class HotspotAction {
         Rectangle area, effectiveArea;
         Runnable activationAction;
         Runnable deactivationAction;

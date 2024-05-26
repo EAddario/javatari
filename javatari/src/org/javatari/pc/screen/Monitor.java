@@ -94,7 +94,7 @@ public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsert
     private String osdMessage;
     private JLabel osdComponent;
     private boolean crtFilter = CRT_FILTER;
-    private int crtMode = CRT_MODE < 0 ? 0 : CRT_MODE;
+    private int crtMode = Math.max(CRT_MODE, 0);
     private int debug = 0;
     private boolean showStats = false;
     private int line = 0;
@@ -316,7 +316,7 @@ public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsert
         // Only used when the detected number of lines per frame is bigger than standard by a reasonable amount
         int prevAdd = videoStandardDetectionAdtLinesPerFrame;
         int newAdd = linesCount - videoStandardDetected.height;
-        if (newAdd > 2) newAdd = (newAdd > 6 ? 6 : newAdd) - 2;
+        if (newAdd > 2) newAdd = (Math.min(newAdd, 6)) - 2;
         else newAdd = 0;
 
         // Only sets size now if additional lines changed
@@ -797,4 +797,3 @@ public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsert
     }
 
 }
-

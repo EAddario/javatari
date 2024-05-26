@@ -37,7 +37,7 @@ public final class MonitorControls implements KeyListener {
     private final Map<Integer, Control> keyShiftAltCodeMap = new HashMap<>();
     private final Map<Integer, Control> keyControlCodeMap = new HashMap<>();
     private final Map<Integer, Control> keyControlAltCodeMap = new HashMap<>();
-    private Monitor monitor;
+    private final Monitor monitor;
     MonitorControls(Monitor monitor) {
         this.monitor = monitor;
         init();

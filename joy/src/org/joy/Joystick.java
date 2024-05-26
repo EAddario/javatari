@@ -13,7 +13,7 @@ public class Joystick {
     public static int WEST = 6;
     public static int NORTHWEST = 7;
     public static int CENTER = -1;
-    private static int POV_CENTER_RAW = 65535;
+    private static final int POV_CENTER_RAW = 65535;
     private final Joy.Info info;
     private final Joy.State state;
     private float deadZoneThreshold = 0.20f;

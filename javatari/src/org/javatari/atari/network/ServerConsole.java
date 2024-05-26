@@ -126,7 +126,7 @@ public final class ServerConsole extends Console implements ClockDriven {
         remoteTransmitter.serverConsole(this);
     }
 
-    private class ServerConsoleControlsSocketAdapter extends ConsoleControlsSocket {
+    private static class ServerConsoleControlsSocketAdapter extends ConsoleControlsSocket {
         private final List<ControlChange> queuedChanges = new ArrayList<>();
 
         @Override

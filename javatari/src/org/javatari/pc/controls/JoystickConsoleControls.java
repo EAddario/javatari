@@ -132,7 +132,7 @@ public final class JoystickConsoleControls implements ConsoleControls {
 
     private void setupDeviceOptions(int joy0Device, int joy1Device) {
         // Determine auto options
-        Info auto0 = devices.size() > 0 ? devices.get(0) : null;
+        Info auto0 = !devices.isEmpty() ? devices.get(0) : null;
         Info auto1 = devices.size() > 1 ? devices.get(1) : null;
         // List all options for joystick0 and joystick1
         joystick0DeviceOptions = new Vector<>();

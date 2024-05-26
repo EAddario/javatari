@@ -3,9 +3,9 @@
 package org.joy;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class Joy {
                                 libFileName.substring(libFileName.lastIndexOf(".")));
                         tempLibFile.deleteOnExit();
 
-                        OutputStream tempOutput = new FileOutputStream(tempLibFile);
+                        OutputStream tempOutput = Files.newOutputStream(tempLibFile.toPath());
                         int bytes;
                         byte[] buffer = new byte[16384];
                         while ((bytes = resInput.read(buffer)) != -1) tempOutput.write(buffer, 0, bytes);
@@ -120,8 +120,8 @@ public class Joy {
     }
 
     static class State {
-        private int id;
-        private int[] data = new int[8];
+        private final int id;
+        private final int[] data = new int[8];
 
         private State(int id) {
             this.id = id;

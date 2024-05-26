@@ -366,7 +366,7 @@ public class Console {
     }
 
     protected class CartridgeSocketAdapter implements CartridgeSocket {
-        private List<CartridgeInsertionListener> insertionListeners = new ArrayList<>();
+        private final List<CartridgeInsertionListener> insertionListeners = new ArrayList<>();
 
         @Override
         public void insert(Cartridge cartridge, boolean autoPower) {

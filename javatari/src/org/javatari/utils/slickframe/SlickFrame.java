@@ -11,7 +11,7 @@ public class SlickFrame extends JFrame {
     public static final long serialVersionUID = 1L;
     private static final int RESIZE_CORNER_SIZE = 18;
     private final boolean resizable;
-    private HotspotPanel contentHotspotPanel;
+    private final HotspotPanel contentHotspotPanel;
     private Point clickPosition = null;
     private Point startingLocation = null;
     private Dimension startingSize = null;

@@ -237,7 +237,7 @@ public class Room {
         if (isClientMode()) return;
         // First try to load the first built-in ROM
         ArrayList<BuiltInROM> builtInROMs = BuiltInROM.all();
-        if (builtInROMs.size() > 0) {
+        if (!builtInROMs.isEmpty()) {
             cartridgeProvided = ROMLoader.load(builtInROMs.get(0));
             if (cartridgeProvided == null) Terminator.terminate();        // Error loading Cartridge
             Parameters.SCREEN_CARTRIDGE_CHANGE = false;                    // Disable manual Cartridge change

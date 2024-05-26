@@ -12,5 +12,3 @@
 # In the current release, only one (the first) ROM will be loaded.
 # In future releases, the user will be able to select any of the built-in ROMs.
 ##############################################################################################
-
-

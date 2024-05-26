@@ -66,7 +66,7 @@ public class CartridgeDatabase {
     private static final String HINTS_PREFIX_REGEX = "(|.*?(\\W|_|%20))";
     private static final String HINTS_SUFFIX_REGEX = "(|(\\W|_|%20).*)";
     private static final int FORMAT_PRIORITY_BOOST = 50;
-    private static List<CartridgeFormat> allFormats = Arrays.asList(CartridgeSavestate.FORMAT,            // 90
+    private static final List<CartridgeFormat> allFormats = Arrays.asList(CartridgeSavestate.FORMAT,            // 90
             Cartridge4K.FORMAT,                    // 101
             Cartridge2K_CV.FORMAT,                // 102
             Cartridge8K_F8.FORMAT,                // 101
@@ -90,7 +90,7 @@ public class CartridgeDatabase {
             Cartridge10K_DPC.FORMAT,            // 110
             Cartridge32K_FA2cu.FORMAT            // 103
     );
-    private static FormatRomNameMatcher[] formatRomNames = new FormatRomNameMatcher[]{
+    private static final FormatRomNameMatcher[] formatRomNames = new FormatRomNameMatcher[]{
             new FormatRomNameMatcher(Cartridge8K_E0.FORMAT, new String[]{
                     ".*MONTEZUMA.*", ".*MONTZREV.*",
                     ".*GYRUS.*",

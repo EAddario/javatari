@@ -4,7 +4,7 @@ package org.javatari.atari.tia.video;
 
 public final class PALPalette {
 
-    private static int[] baseRGB = {
+    private static final int[] baseRGB = {
             0x000000,        // 00
             0x282828,        // 02
             0x505050,        // 04
