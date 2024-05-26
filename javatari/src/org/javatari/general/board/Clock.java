@@ -81,9 +81,9 @@ public final class Clock extends Thread {
                         if (waitTime > 0)
                             sleep(waitTime / 1000000, (int) (waitTime % 1000000));
                         else
-                            yield();
+                            Thread.yield();
                     } else
-                        yield();
+                        Thread.yield();
                 }
             } catch (InterruptedException ignored) {
             }

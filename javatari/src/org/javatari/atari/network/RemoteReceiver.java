@@ -24,7 +24,7 @@ public final class RemoteReceiver {
     private InputStream socketInputStream;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
+    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
 
     public RemoteReceiver() {
         updates = new ConcurrentLinkedQueue<>();
@@ -100,7 +100,7 @@ public final class RemoteReceiver {
             if (divider < 0) return Parameters.SERVER_SERVICE_PORT;
             else {
                 p = serverAddress.substring(divider + 1).trim();
-                return Integer.valueOf(p);
+                return Integer.parseInt(p);
             }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid port number: " + p);
@@ -205,7 +205,7 @@ public final class RemoteReceiver {
                     }
                     if (inputStream != null) {
                         console.receiveServerUpdate(update);
-                        yield();
+                        Thread.yield();
                     }
                 }
             } catch (InterruptedException ex) {
@@ -216,5 +216,3 @@ public final class RemoteReceiver {
     }
 
 }
-
-
