@@ -12,6 +12,7 @@ public enum VideoStandard {
     public final int width;
     public final int height;
     public final double fps;
+
     VideoStandard(int width, int height, double fps) {
         this.width = width;
         this.height = height;
@@ -19,4 +20,3 @@ public enum VideoStandard {
     }
 
 }
-

@@ -14,7 +14,6 @@ public class Cartridge64K_X07 extends CartridgeBankedByBusMonitoring {
 
     public static final long serialVersionUID = 1L;
     protected static final int BANK_SIZE = 4096;
-    private static final int BANK_14_ADDRESS = 14 * BANK_SIZE;
     protected static final int SIZE = 16 * BANK_SIZE;
     public static final CartridgeFormat FORMAT = new CartridgeFormat("X07", "64K AtariAge") {
         private static final long serialVersionUID = 1L;
@@ -30,6 +29,7 @@ public class Cartridge64K_X07 extends CartridgeBankedByBusMonitoring {
             return new CartridgeFormatOption(102, this, rom);
         }
     };
+    private static final int BANK_14_ADDRESS = 14 * BANK_SIZE;
 
     private Cartridge64K_X07(ROM rom) {
         super(rom, FORMAT);

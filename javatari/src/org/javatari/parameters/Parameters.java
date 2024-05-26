@@ -17,6 +17,13 @@ public final class Parameters {
     // Main Version info
     public static final String TITLE = "Javatari";
     public static final String VERSION = "6.12-EA";
+    // DEFAULTS
+    public static final int CONTROL_UNSET = -1;
+    public static final int JOY_DEVICE_NONE = -1;
+    public static final int JOY_DEVICE_AUTO = -99;
+    public static final String DEFAULT_CARTRIDGE_LABEL = "JAVATARI 2600";
+    public static final String OFFICIAL_WEBSITE = "http://javatari.org";
+    public static final String TWITTER_WEBPAGE = "http://twitter.com/ppeccin";
     private static final int DEFAULT_KEY_P0_LEFT = KeyEvent.VK_LEFT;
     private static final int DEFAULT_KEY_P0_UP = KeyEvent.VK_UP;
     private static final int DEFAULT_KEY_P0_RIGHT = KeyEvent.VK_RIGHT;
@@ -29,13 +36,10 @@ public final class Parameters {
     private static final int DEFAULT_KEY_P1_DOWN = KeyEvent.VK_G;
     private static final int DEFAULT_KEY_P1_BUTTON = KeyEvent.VK_A;
     private static final int DEFAULT_KEY_P1_BUTTON2 = KeyEvent.VK_PERIOD;
-
-    // DEFAULTS
-    public static final int CONTROL_UNSET = -1;
-    public static final int JOY_DEVICE_NONE = -1;
-    public static final int JOY_DEVICE_AUTO = -99;
     private static final int DEFAULT_JOY_P0_DEVICE = JOY_DEVICE_AUTO;
+    public static int JOY_P0_DEVICE = DEFAULT_JOY_P0_DEVICE;
     private static final int DEFAULT_JOY_P1_DEVICE = JOY_DEVICE_AUTO;
+    public static int JOY_P1_DEVICE = DEFAULT_JOY_P1_DEVICE;
     private static final int DEFAULT_JOY_XAXIS = 0;
     private static final int DEFAULT_JOY_YAXIS = 1;
     private static final int DEFAULT_JOY_PAD_AXIS = 0;
@@ -49,6 +53,7 @@ public final class Parameters {
     private static final int DEFAULT_JOY_DEADZONE = 30;
     private static final int DEFAULT_JOY_PADDLE_CENTER = 0;
     private static final int DEFAULT_JOY_PADDLE_SENS = 90;
+    private static final Properties props = new Properties();
     // Cartridge URL to load passed as argument
     public static String mainArg = null;
     public static double TIA_FORCED_CLOCK = 0;                            //  0 = No Forced Clock
@@ -104,24 +109,19 @@ public final class Parameters {
     public static int SERVER_SERVICE_PORT = 9998;
     public static int SERVER_MAX_UPDATES_PENDING = 20;
     public static int CLIENT_MAX_UPDATES_PENDING = 20;
-
     // DEFATULS for the customizable preferences below
     public static String CARTRIDGE_NAME = null;
     public static String CARTRIDGE_LABEL = null;
-    private static String CARTRIDGE_LABEL_COLORS = null;
     public static int CARTRIDGE_LABEL_COLOR = -1;
     public static int CARTRIDGE_BACK_COLOR = -1;
     public static int CARTRIDGE_BORDER_COLOR = -1;
     public static int CARTRIDGE_PADDLES = -1;
     public static int CARTRIDGE_CRT_MODE = -1;
     public static String CARTRIDGE_FORMAT = null;
-    public static final String DEFAULT_CARTRIDGE_LABEL = "JAVATARI 2600";
     public static int DEFAULT_CARTRIDGE_LABEL_COLOR = 0xeb2820;
     public static int DEFAULT_CARTRIDGE_BACK_COLOR = 0x141414;
     public static int PADDLES_MODE = -1;                                // -1 = AUTO, 0 = Force OFF, 1 = Force ON
     public static int JOYSTICK_UPDATE_RATE = 120;                        // In Hz
-    public static final String OFFICIAL_WEBSITE = "http://javatari.org";
-    public static final String TWITTER_WEBPAGE = "http://twitter.com/ppeccin";
     public static int KEY_P0_LEFT = DEFAULT_KEY_P0_LEFT;
     public static int KEY_P0_UP = DEFAULT_KEY_P0_UP;
     public static int KEY_P0_RIGHT = DEFAULT_KEY_P0_RIGHT;
@@ -134,9 +134,7 @@ public final class Parameters {
     public static int KEY_P1_DOWN = DEFAULT_KEY_P1_DOWN;
     public static int KEY_P1_BUTTON = DEFAULT_KEY_P1_BUTTON;
     public static int KEY_P1_BUTTON2 = DEFAULT_KEY_P1_BUTTON2;
-    public static int JOY_P0_DEVICE = DEFAULT_JOY_P0_DEVICE;
     public static int JOY_P0_XAXIS = DEFAULT_JOY_XAXIS;
-
     // The following parameters can be customized as user preferences, not via properties file or command line
     public static int JOY_P0_XAXIS_SIGNAL = DEFAULT_JOY_AXIS_SIGNAL;
     public static int JOY_P0_YAXIS = DEFAULT_JOY_YAXIS;
@@ -152,7 +150,6 @@ public final class Parameters {
     public static int JOY_P0_DEADZONE = DEFAULT_JOY_DEADZONE;
     public static int JOY_P0_PADDLE_CENTER = DEFAULT_JOY_PADDLE_CENTER;
     public static int JOY_P0_PADDLE_SENS = DEFAULT_JOY_PADDLE_SENS;
-    public static int JOY_P1_DEVICE = DEFAULT_JOY_P1_DEVICE;
     public static int JOY_P1_XAXIS = DEFAULT_JOY_XAXIS;
     public static int JOY_P1_XAXIS_SIGNAL = DEFAULT_JOY_AXIS_SIGNAL;
     public static int JOY_P1_YAXIS = DEFAULT_JOY_YAXIS;
@@ -171,7 +168,7 @@ public final class Parameters {
     public static String LAST_ROM_LOAD_FILE_CHOSEN = "";
     public static String LAST_ROM_LOAD_URL_CHOSEN = "";
     public static String LAST_ROM_SAVE_FILE_CHOSEN = "";
-    private static final Properties props = new Properties();
+    private static String CARTRIDGE_LABEL_COLORS = null;
     private static Preferences userPreferences;
     private static boolean userPreferencesAsked = false;
 

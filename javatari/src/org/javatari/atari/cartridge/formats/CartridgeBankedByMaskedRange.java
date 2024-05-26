@@ -24,6 +24,7 @@ public abstract class CartridgeBankedByMaskedRange extends CartridgeBanked {
     int romStartAddress = 0;
     byte[] extraRAM;
     private boolean superChipMode;
+
     CartridgeBankedByMaskedRange(ROM rom, CartridgeFormat format,
                                  int baseBankSwitchAddress, Boolean superChip, int extraRAMSize) {
         super(rom, format);

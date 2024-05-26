@@ -14,6 +14,7 @@ import java.util.Map;
 
 public final class MonitorControls implements KeyListener {
 
+    public static final int KEY_VIDEO_STAND = KeyEvent.VK_V;
     private static final int KEY_UP = KeyEvent.VK_UP;
     private static final int KEY_DOWN = KeyEvent.VK_DOWN;
     private static final int KEY_LEFT = KeyEvent.VK_LEFT;
@@ -27,7 +28,6 @@ public final class MonitorControls implements KeyListener {
     private static final int KEY_CART_SAVESTATE = KeyEvent.VK_F8;
     private static final int KEY_CRT_FILTER = KeyEvent.VK_T;
     private static final int KEY_CRT_MODES = KeyEvent.VK_R;
-    public static final int KEY_VIDEO_STAND = KeyEvent.VK_V;
     private static final int KEY_DEBUG = KeyEvent.VK_D;
     private static final int KEY_STATS = KeyEvent.VK_G;
     private final Map<Integer, Control> keyCodeMap = new HashMap<>();
@@ -38,6 +38,7 @@ public final class MonitorControls implements KeyListener {
     private final Map<Integer, Control> keyControlCodeMap = new HashMap<>();
     private final Map<Integer, Control> keyControlAltCodeMap = new HashMap<>();
     private final Monitor monitor;
+
     MonitorControls(Monitor monitor) {
         this.monitor = monitor;
         init();

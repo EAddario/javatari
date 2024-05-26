@@ -15,7 +15,7 @@ import java.security.AccessControlException;
 
 public final class FileSaveStateMedia implements SaveStateMedia {
 
-    private static final String BASE_DIR = "javatarisaves";
+    private static final String BASE_DIR = ".javatari";
     private String savesDirectory;
 
     public void connect(SaveStateSocket socket) {
@@ -36,13 +36,13 @@ public final class FileSaveStateMedia implements SaveStateMedia {
 
     @Override
     public boolean saveState(int slot, ConsoleState state) {
-        return internalSaveToFile("javatarisave" + slot + "." + ROMLoader.VALID_STATE_FILE_EXTENSION, state, true, true);
+        return internalSaveToFile("save_" + slot + "." + ROMLoader.VALID_STATE_FILE_EXTENSION, state, true, true);
     }
 
     @Override
     public ConsoleState loadState(int slot) {
         try {
-            return (ConsoleState) internalLoadFromFile("javatarisave" + slot + "." + ROMLoader.VALID_STATE_FILE_EXTENSION, true, true);
+            return (ConsoleState) internalLoadFromFile("save_" + slot + "." + ROMLoader.VALID_STATE_FILE_EXTENSION, true, true);
         } catch (Exception ex) {
             // ClassCast or any other error
             return null;

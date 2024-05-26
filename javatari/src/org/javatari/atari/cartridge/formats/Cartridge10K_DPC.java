@@ -16,7 +16,6 @@ public class Cartridge10K_DPC extends CartridgeBankedByMaskedRange {
 
     public static final long serialVersionUID = 1L;
     static final int ROM_SIZE = 8192 + 2048;
-    private static final int DPC_ROM_END = 8192 + 2048 - 1;
     static final int SIZE_TOLERANCE = 256;        // Pitfall2 ROMs have 255 extra bytes for the random number stream
     public static final CartridgeFormat FORMAT = new CartridgeFormat("DPC", "10K DPC (Pitfall 2)") {
         private static final long serialVersionUID = 1L;
@@ -32,6 +31,7 @@ public class Cartridge10K_DPC extends CartridgeBankedByMaskedRange {
             return new CartridgeFormatOption(110, this, rom);
         }
     };
+    private static final int DPC_ROM_END = 8192 + 2048 - 1;
     private static final int BASE_BANKSW_ADDRESS = 0x0ff8;
     private static final int AUDIO_CLOCK_DEFAULT_DIVIDER = 60;
     private static final byte[] AUDIO_MIXED_OUTPUT = new byte[]{0x0, 0x5, 0x5, 0xa, 0x5, 0xa, 0xa, 0xf};
@@ -46,6 +46,7 @@ public class Cartridge10K_DPC extends CartridgeBankedByMaskedRange {
     private boolean[] audioMode = new boolean[8];
     private int audioClockDivider = AUDIO_CLOCK_DEFAULT_DIVIDER;
     private int audioClockCounter = 0;
+
     Cartridge10K_DPC(ROM rom, CartridgeFormat format) {
         super(rom, format, BASE_BANKSW_ADDRESS, false, 0);        // SuperChip always OFF, no RAM
     }
@@ -268,4 +269,3 @@ public class Cartridge10K_DPC extends CartridgeBankedByMaskedRange {
     }
 
 }
-

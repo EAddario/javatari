@@ -14,11 +14,11 @@ public class HotspotPanel extends JPanel {
 
     public static final int CENTER_HOTSPOT = -10000;
     public static final long serialVersionUID = 1L;
+    private final List<HotspotAction> hotspots = new ArrayList<>();
+    private final List<HotspotAction> hotspotsWithTooltip = new ArrayList<>();
     private MousePressAndMotionListener forwardListener;
     private MousePressAndMotionListener mouseListener;
     private boolean hotspotsEffectiveAreasValid = false;
-    private final List<HotspotAction> hotspots = new ArrayList<>();
-    private final List<HotspotAction> hotspotsWithTooltip = new ArrayList<>();
     private HotspotAction activeHotspot;
 
     public HotspotPanel() throws HeadlessException {
@@ -186,9 +186,11 @@ public class HotspotPanel extends JPanel {
         Runnable activationAction;
         Runnable deactivationAction;
         String tooltip;
+
         public HotspotAction(Rectangle area, Runnable activationAction) {
             this(area, activationAction, null);
         }
+
         HotspotAction(Rectangle area, Runnable activationAction, Runnable deactivationAction) {
             this.area = area;
             this.effectiveArea = new Rectangle(area);

@@ -14,17 +14,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class RemoteReceiver {
 
     private static final int MAX_UPDATES_PENDING = Parameters.CLIENT_MAX_UPDATES_PENDING;
+    private final ConcurrentLinkedQueue<ServerUpdate> updates;
+    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
     private ClientConsole console;
     private Socket socket;
     private String serverAddress;
-    private final ConcurrentLinkedQueue<ServerUpdate> updates;
     private UpdatesConsumer updatesConsumer;
     private UpdatesReceiver updatesReceiver;
     private OutputStream socketOutputStream;
     private InputStream socketInputStream;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
 
     public RemoteReceiver() {
         updates = new ConcurrentLinkedQueue<>();

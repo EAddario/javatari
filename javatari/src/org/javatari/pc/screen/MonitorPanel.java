@@ -26,8 +26,8 @@ import java.util.List;
 
 public final class MonitorPanel extends HotspotPanel implements MonitorDisplay {
 
-    private static final int BORDER_SIZE = Parameters.SCREEN_BORDER_SIZE;
     public static final long serialVersionUID = 1L;
+    private static final int BORDER_SIZE = Parameters.SCREEN_BORDER_SIZE;
     private static final Insets SLICK_INSETS = new Insets(4, 4, 30, 4);
     private static final boolean EMBEDDED_POPUP = Parameters.SCREEN_EMBEDDED_POPUP;
     private final Monitor monitor;

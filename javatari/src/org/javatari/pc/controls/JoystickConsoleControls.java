@@ -21,9 +21,9 @@ public final class JoystickConsoleControls implements ConsoleControls {
 
     private static final int JOYSTICK_UPDATE_SLEEP = 1000 / Parameters.JOYSTICK_UPDATE_RATE;
     private final AWTConsoleControls awtControls;
-    private boolean deviceListFailed = false;
     public boolean swappedMode = false;
     public boolean paddleMode = false;
+    private boolean deviceListFailed = false;
     private VideoMonitor videoMonitor;
     private ConsoleControlsSocket consoleControlsSocket;
     private List<Info> devices = new Vector<>();

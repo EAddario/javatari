@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class ROM implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    final String source;
     public final byte[] content;
     public final CartridgeInfo info;
+    final String source;
 
 
     public ROM(String source, byte[] content) {

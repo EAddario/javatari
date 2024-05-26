@@ -25,9 +25,9 @@ import java.util.*;
 
 public final class ConsolePanel extends HotspotPanel implements ConsoleControls, ConsoleControlsInput, ConsoleControlsRedefinitionListener, CartridgeInsertionListener {
 
+    public static final long serialVersionUID = 1L;
     private static final int WIDTH = 465;
     private static final int HEIGHT = 137;
-    public static final long serialVersionUID = 1L;
     private static final Set<Control> visibleControls = new HashSet<>(
             Arrays.asList(Control.POWER, Control.BLACK_WHITE, Control.SELECT, Control.RESET, Control.DIFFICULTY0, Control.DIFFICULTY1));
     private static final String DEFAULT_CARTRIDGE_LABEL = Parameters.DEFAULT_CARTRIDGE_LABEL;
@@ -48,6 +48,7 @@ public final class ConsolePanel extends HotspotPanel implements ConsoleControls,
     private boolean cartridgeInserted = false;
     private HotspotAction cartridgeInsertedHotspot, cartridgeMissingHotspot, fileHotspot, urlHotspot;
     private ConsoleControlsSocket consoleControlsSocket;
+
     ConsolePanel(Monitor screen, MousePressAndMotionListener forwardListener) {
         super();
         this.screen = screen;
@@ -274,4 +275,3 @@ public final class ConsolePanel extends HotspotPanel implements ConsoleControls,
     }
 
 }
-

@@ -13,6 +13,7 @@ public final class CPx extends Instruction {
     private final int reg;
     private final int type;
     private int ea;
+
     public CPx(M6502 cpu, int reg, int type) {
         super(cpu);
         this.reg = reg;

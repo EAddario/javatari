@@ -34,6 +34,7 @@ public class Cartridge8K_512K_3F extends CartridgeBankedByBusMonitoring {
     static final int FIXED_SLICE_START_ADDRESS = 2048;
     final int selectableSliceMaxBank;
     final int fixedSliceAddressOffset;        // This slice is fixed at the last bank
+
     Cartridge8K_512K_3F(ROM rom, CartridgeFormat format) {
         super(rom, format);
         selectableSliceMaxBank = (bytes.length - BANK_SIZE) / BANK_SIZE - 1;

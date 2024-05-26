@@ -8,8 +8,8 @@ import java.io.Serializable;
 public abstract class CartridgeFormat implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    final String id;
     public final String name;
+    final String id;
 
     public CartridgeFormat(String id, String name) {
         super();

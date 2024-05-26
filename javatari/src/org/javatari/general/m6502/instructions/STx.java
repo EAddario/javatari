@@ -14,6 +14,7 @@ public final class STx extends Instruction {
     private final int reg;
     private final int type;
     private int ea;
+
     public STx(M6502 cpu, int reg, int type) {
         super(cpu);
         this.reg = reg;

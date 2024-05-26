@@ -15,18 +15,18 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class RemoteTransmitter {
 
     private static final int MAX_UPDATES_PENDING = Parameters.SERVER_MAX_UPDATES_PENDING;
+    private final ConcurrentLinkedQueue<ServerUpdate> updates;
+    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
     private boolean started = false;
     private ServerSocket serverSocket;
     private Socket socket;
     private int port = Parameters.SERVER_SERVICE_PORT;
     private ServerConsole console;
-    private final ConcurrentLinkedQueue<ServerUpdate> updates;
     private UpdatesSender updatesSender;
     private OutputStream socketOutputStream;
     private InputStream socketInputStream;
     private ObjectOutputStream outputStream;
     private ObjectInputStream inputStream;
-    private final List<ConnectionStatusListener> connectionListeners = new ArrayList<>();
 
     public RemoteTransmitter() {
         updates = new ConcurrentLinkedQueue<>();

@@ -16,9 +16,10 @@ public class BuiltInROM {
 
     private static final String ROMS_FOLDER = "roms";
     private static final String ROMS_LIST_FILE = "roms.txt";
+    public final URL url;
     final String label;
     final String labelColors;
-    public final URL url;
+
     private BuiltInROM(String label, String labelColors, URL romURL) {
         super();
         this.label = label;

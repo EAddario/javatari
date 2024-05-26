@@ -21,10 +21,10 @@ import java.util.Arrays;
 
 public final class DesktopConsolePanel extends SlickFrame {
 
-    private static final int WIDTH = 465;
-    static final int EXPANDED_HEIGHT = 137;
-    private static final int RETRACTED_HEIGHT = 10;
     public static final long serialVersionUID = 1L;
+    static final int EXPANDED_HEIGHT = 137;
+    private static final int WIDTH = 465;
+    private static final int RETRACTED_HEIGHT = 10;
     private final DesktopScreenWindow masterWindow;
     private final ConsolePanel consolePanel;
     private boolean retracted = false;
@@ -251,4 +251,3 @@ public final class DesktopConsolePanel extends SlickFrame {
     }
 
 }
-

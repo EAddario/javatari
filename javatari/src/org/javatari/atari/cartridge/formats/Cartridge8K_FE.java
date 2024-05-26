@@ -29,6 +29,7 @@ public final class Cartridge8K_FE extends CartridgeBanked {
         }
     };
     private static final int BANK_SIZE = 4096;
+
     private Cartridge8K_FE(ROM rom) {
         super(rom, FORMAT);
         bankAddressOffset = BANK_SIZE;

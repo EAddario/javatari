@@ -45,6 +45,7 @@ public class Cartridge24K_28K_32K_FA2 extends CartridgeBankedByMaskedRange {
     private long harmonyFlashOpStartTime = Long.MIN_VALUE;
     private int harmonyFlashOpInProgress = 0;                    // 0 = none, 1 = read, 2 = write
     private byte[] harmonyFlashMemory = new byte[256];
+
     Cartridge24K_28K_32K_FA2(ROM rom, CartridgeFormat format) {
         super(rom, format, BASE_BANKSW_ADDRESS, true, 256);        // SuperChip always ON, 256 RAM
     }

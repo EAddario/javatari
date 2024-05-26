@@ -31,12 +31,12 @@ import java.util.List;
 
 public final class DesktopScreenWindow extends SlickFrame implements MonitorDisplay, Screen {
 
+    public static final long serialVersionUID = 1L;
     static final String BASE_TITLE = "javatari";
     private static final boolean FULLSCREEN = Parameters.SCREEN_FULLSCREEN;
     private static final int USE_FSEM = Parameters.SCREEN_USE_FSEM;
     private static final int BORDER_SIZE = Parameters.SCREEN_BORDER_SIZE;
     private static final boolean CONSOLE_PANEL = Parameters.SCREEN_CONSOLE_PANEL;
-    public static final long serialVersionUID = 1L;
     private static final Insets SLICK_INSETS = new Insets(4, 4, 30, 4);
     private static final boolean EMBEDDED_POPUP = Parameters.SCREEN_EMBEDDED_POPUP;
     BufferedImage favicon, icon64, icon32;    // Other windows use these

@@ -36,6 +36,7 @@ public final class Cartridge16K_E7 extends CartridgeBanked {
     private byte[] extraRAM = new byte[2048];
     private boolean extraRAMSlice0Active = false;
     private int extraRAMSlice1Offset = EXTRA_RAM_SLICE1_START;
+
     private Cartridge16K_E7(ROM rom) {
         super(rom, FORMAT);
     }

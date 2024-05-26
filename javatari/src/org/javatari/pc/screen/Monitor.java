@@ -34,13 +34,13 @@ import java.util.List;
 
 public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsertionListener {
 
-    private static final double DEFAULT_FPS = Parameters.SCREEN_DEFAULT_FPS;
+    public static final long serialVersionUID = 0L;
     static final int BUFFER_VSYNC = Parameters.SCREEN_BUFFER_VSYNC;
     static final int MULTI_BUFFERING = Parameters.SCREEN_MULTI_BUFFERING;
     static final boolean PAGE_FLIPPING = Parameters.SCREEN_PAGE_FLIPPING;
     static final float DEFAULT_SCALE_X = Parameters.SCREEN_DEFAULT_SCALE_X;
     static final float DEFAULT_SCALE_ASPECT_X = Parameters.SCREEN_DEFAULT_SCALE_ASPECT_X;
-    public static final long serialVersionUID = 0L;
+    private static final double DEFAULT_FPS = Parameters.SCREEN_DEFAULT_FPS;
     private static final String[] crtModeNames = {"OFF", "Phosphor", "Phosphor Scanlines", "RGB", "RGB Phosphor"};
     private static final int EXTRA_UPPER_VSYNC_TOLERANCE = 5;
     private static final int VSYNC_TOLERANCE = Parameters.SCREEN_VSYNC_TOLERANCE;
@@ -61,9 +61,9 @@ public final class Monitor implements ClockDriven, VideoMonitor, CartridgeInsert
     private static final float SCANLINES_ACCELERATION = Parameters.SCREEN_SCANLINES_ACCELERATION;
     private static final boolean CARTRIDGE_CHANGE = Parameters.SCREEN_CARTRIDGE_CHANGE;
     private static final boolean FIXED_SIZE = Parameters.SCREEN_FIXED_SIZE;
+    final String refreshMonitor = "refreshMonitor";        // Used only for synchronization
     private final double fps;
     public Clock clock;
-    final String refreshMonitor = "refreshMonitor";        // Used only for synchronization
     private MonitorControls monitorControls;
     private boolean fixedSizeMode = FIXED_SIZE;
     private boolean cartridgeChangeEnabled = CARTRIDGE_CHANGE;

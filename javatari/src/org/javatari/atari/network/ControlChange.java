@@ -12,6 +12,7 @@ public class ControlChange implements Serializable {
     public static final long serialVersionUID = 1L;
     public Control control;
     public boolean state;
+
     ControlChange() {
         super();
     }

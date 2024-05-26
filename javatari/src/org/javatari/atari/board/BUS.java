@@ -24,6 +24,7 @@ public final class BUS implements BUS16Bits, ClockDriven {
     private byte data = 0;
     private boolean cartridgeNeedsClock = false;
     private boolean cartridgeNeedsBusMonitoring = false;
+
     public BUS(M6502 cpu, TIA tia, PIA pia, RAM ram) {
         this.cpu = cpu;
         this.ram = ram;

@@ -28,13 +28,13 @@ import java.util.ArrayList;
 public class Room {
 
     static Room currentRoom;
+    protected Screen screen;
     Console currentConsole;
+    AWTConsoleControls awtControls;
     private Console standaloneConsole;
     private ServerConsole serverConsole;
     private ClientConsole clientConsole;
-    protected Screen screen;
     private Speaker speaker;
-    AWTConsoleControls awtControls;
     private FileSaveStateMedia stateMedia;
     private Cartridge cartridgeProvided;
     private boolean triedToLoadCartridgeProvided = false;

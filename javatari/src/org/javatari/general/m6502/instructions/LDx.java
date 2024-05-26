@@ -13,6 +13,7 @@ public final class LDx extends Instruction {
     private final int reg;
     private final int type;
     private int ea;
+
     public LDx(M6502 cpu, int reg, int type) {
         super(cpu);
         this.reg = reg;

@@ -17,14 +17,14 @@ import static org.javatari.general.m6502.StatusBit.*;
 
 public final class M6502 implements ClockDriven {
 
+    // Vectors
+    public static final int NMI_HANDLER_ADDRESS = 0xfffa;
+    public static final int IRQ_HANDLER_ADDRESS = 0xfffe;
     // Constants
     private static final byte STACK_INITIAL_SP = (byte) 0xff;
     private static final int STACK_PAGE = 0x0100;
     private static final byte BREAK_COMMAND_FLAG = 0x10;
-    // Vectors
-    public static final int NMI_HANDLER_ADDRESS = 0xfffa;
     private static final int POWER_ON_RESET_ADDRESS = 0xfffc;
-    public static final int IRQ_HANDLER_ADDRESS = 0xfffe;
     public final Instruction[] instructions = {
             /*   00 - BRK                  */  new BRK(this),
             /*   01 - ORA  - (Indirect,X)  */  new ORA(this, IND_X),
@@ -572,5 +572,3 @@ public final class M6502 implements ClockDriven {
     }
 
 }
-
-

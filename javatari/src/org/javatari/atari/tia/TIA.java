@@ -209,6 +209,7 @@ public final class TIA implements BUS16Bits, ClockDriven, ConsoleControlsInput {
     // Read registers -------------------------------------------
     private int HMM1;        // 1111....  horizontal motion missile 1
     private int HMBL;        // 1111....  horizontal motion ball
+
     public TIA() {
         videoOutput = new VideoGenerator();
         audioOutput = new AudioMonoGenerator();

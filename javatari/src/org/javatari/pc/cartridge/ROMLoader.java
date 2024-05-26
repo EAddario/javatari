@@ -22,10 +22,10 @@ import java.util.zip.ZipInputStream;
 
 public final class ROMLoader {
 
+    public static final String VALID_STATE_FILE_EXTENSION = "jat";
     static final String VALID_LOAD_FILES_DESC = "ROM and Savestate files (.bin .rom .a26 .zip .jat)";
     static final String[] VALID_LOAD_FILE_EXTENSIONS = {"bin", "rom", "a26", "zip", "jat"};
     static final String VALID_STATE_FILE_DESC = "Javatari Savestate files (.jat)";
-    public static final String VALID_STATE_FILE_EXTENSION = "jat";
     private static final int MAX_ROM_SIZE = 512 * 1024;
     private static final int MAX_STREAM_SIZE = MAX_ROM_SIZE + 1024;
 

@@ -36,12 +36,12 @@ public class Console {
     protected TIA tia;
     protected PIA pia;
     protected RAM ram;
-    private VideoStandard videoStandard;
-    private boolean videoStandardAuto = true;
     protected ConsoleControlsSocket controlsSocket;
     protected CartridgeSocketAdapter cartridgeSocket;
     protected SaveStateSocketAdapter saveStateSocket;
     protected Clock mainClock;
+    private VideoStandard videoStandard;
+    private boolean videoStandardAuto = true;
     private boolean videoStandardAutoDetectionInProgress = false;
 
     public Console() {
