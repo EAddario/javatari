@@ -1704,7 +1704,7 @@ public final class SettingsDialog extends JDialog implements ConnectionStatusLis
                 JLabel lblVersion = new JLabel("version " + Parameters.VERSION);
                 lblVersion.setHorizontalAlignment(SwingConstants.CENTER);
                 lblVersion.setFont(fontLabelMedium);
-                lblVersion.setBounds(67, 202, 95, 14);
+                lblVersion.setBounds(52, 202, 120, 14);
                 aboutPanel.add(lblVersion);
 
                 JLabel lblCreated = new JLabel("created by");
