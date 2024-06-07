@@ -29,7 +29,14 @@ public final class TestStandalone {
         // Keep logging info about clocks speeds achieved
         (new Thread(() -> {
             while (true) {
-                System.out.println(room.currentConsole().mainClock() + ", " + room.screen().monitor().clock + ", " + room.speaker().clock);
+                System.out.print("Main Clock " + room.currentConsole().mainClock() + ", ");
+                System.out.print("Monitor Clock " + room.screen().monitor().clock + ", ");
+                System.out.println("Audio Clock " + room.speaker().clock);
+
+                System.out.print("Video Output Height " + room.currentConsole().videoOutput().standard().height + ", ");
+                System.out.print("Video Output Width " + room.currentConsole().videoOutput().standard().width + ", ");
+                System.out.println("Video Output FPS " + room.currentConsole().videoOutput().standard().fps);
+
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ignored) {
